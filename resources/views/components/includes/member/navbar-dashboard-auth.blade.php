@@ -6,8 +6,8 @@
                 <div class="d-flex align-items-center">
                     <a href="{{ route('home') }}" style="text-decoration: none;">
                         <div class="brand-nemolab-icon d-flex align-items-center">
-                            <img src="{{ asset('devacademy/member/img/logo-devacademy.png') }}" alt="Logo"
-                                width="40" height="40" class="d-inline-block align-text-top">
+                            <img src="{{ asset('devacademy/member/img/logo-devacademy.png') }}" alt="Logo" width="40"
+                                height="40" class="d-inline-block align-text-top">
                             <div class="title-navbar-brand ms-2 d-block">
                                 <p class="m-0 p-0 fw-bold">Devacademy</p>
                                 <p class="m-0 p-0 ">Kursus Online Terbaik</p>
@@ -23,25 +23,7 @@
                     </span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <ul class="navbar-nav d-flex mx-auto">
-                        <form action="{{ route('member.course') }}" method="GET" class="d-lg-flex d-none"
-                            role="search">
-                            <div class="search-group d-flex">
-                                <input class="" type="text" name="search-input" placeholder="Cari Kelas Disini"
-                                    id="search-input" value="{{ request('search-input') }}" aria-label="Search">
-                                <button class="btn p-0 m-0" type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
-                                            fill="#414142">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
-                    </ul>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                     <ul class="navbar-nav d-lg-flex align-items-lg-center gap-lg-4 ps-xl-5">
 
                         <a href="{{ route('home') }}" class="text-decoration-none  pb-2 pb-lg-0">Home</a>
@@ -87,23 +69,18 @@
                                         </div>
                                         <div class="col-12 col-sm-6 ps-0 pl-1 mb-1">
                                             <a
-                                                href="{{ route('member.course', ['filter-kelas' => 'Fullstack Developer']) }}">Fullstack
-                                                Developer</a>
+                                                href="{{ route('member.course', ['filter-kelas' => 'Fullstack Developer']) }}">Fullstack Developer</a>
                                         </div>
                                     </div>
                                 </div>
                             </ul>
                         </div>
 
-                        <a href="{{ route('home') }}#section-pilih-kursus"
-                            class="text-decoration-none  pb-2 pb-lg-0">Kategori</a>
+                        <a href="{{ route('home') }}#section-pilih-kursus" class="text-decoration-none  pb-2 pb-lg-0">Kategori</a>
 
-                        <a href="{{ route('home') }}#section-benefit-kelas"
-                            class="text-decoration-none  pb-2 pb-lg-0">Benefit</a>
+                        <a href="{{ route('home') }}#section-benefit-kelas" class="text-decoration-none  pb-2 pb-lg-0">Benefit</a>
 
-                        <a href="{{ route('home') }}#section-testimoni-kelas"
-                            class="text-decoration-none  pb-2 pb-lg-0">Testimonial</a>
-
+                        <a href="{{ route('home') }}#section-testimoni-kelas" class="text-decoration-none  pb-2 pb-lg-0 pe-5">Testimonial</a>
 
                         <div class="profile-auth ms-lg-5 mx-lg-0">
                             <div class="dropdown d-flex justify-content-end">

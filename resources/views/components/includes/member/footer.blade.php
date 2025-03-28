@@ -47,7 +47,7 @@
                     <div class="col-3 col-md-2">
                         <h5 class="title text-white fw-bold mb-3">Pusat Bantuan</h5>
                         <div class="content-paket-kelas d-flex flex-column">
-                            <a href="#" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
+                            <a href="https://wa.me/6289659058849" target="_blank" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
                                 Hubungi CS
                             </a>
                             <a href="#" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
@@ -58,11 +58,8 @@
                     <div class="col-3 col-md-2">
                         <h5 class="title text-white fw-bold mb-3">Media Sosial</h5>
                         <div class="content-paket-kelas d-flex flex-column">
-                            <a href="#" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
+                            <a href="https://www.instagram.com/dev.academy2025/" target="_blank" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
                                 Instagram
-                            </a>
-                            <a href="#" class="m-0 p-0 text-white mb-2" style="text-decoration: none;">
-                                Youtube
                             </a>
                         </div>
                     </div>

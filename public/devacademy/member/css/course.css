@@ -53,7 +53,7 @@ html::-ms-overflow-style {
 /* Card Styles */
 .card {
   width: 25rem;
-  height: 434px;
+  height: auto;
   border: none;
   border-radius: 14px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);

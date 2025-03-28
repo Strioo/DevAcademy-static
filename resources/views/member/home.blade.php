@@ -1,4 +1,4 @@
-@extends('components.layouts.member.app')
+@extends('components.layouts.member.dashboard')
 
 @section('title', 'Belajar Kursus Online Kapan Saja dan Dimanapun')
 

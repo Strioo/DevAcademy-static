@@ -1,10 +1,10 @@
-@extends('components.layouts.member.app')
+@extends('components.layouts.member.dashboard')
 
-@section('title', 'Nemolab - Lihat informasi dan perkembangan anda disini')
+@section('title', 'Devacademt - Lihat informasi dan perkembangan anda disini')
 
 @push('prepend-style')
-    <link rel="stylesheet" href="{{ asset('nemolab/components/member/css/dashboard/sidebar-dashboard.css') }} ">
-    <link rel="stylesheet" href="{{ asset('nemolab/member/css/dashboard-css/mycourse.css') }} ">
+    <link rel="stylesheet" href="{{ asset('devacademy/components/member/css/dashboard/sidebar-dashboard.css') }} ">
+    <link rel="stylesheet" href="{{ asset('devacademy/member/css/dashboard-css/mycourse.css') }} ">
 @endpush
 @section('content')
 
@@ -28,7 +28,7 @@
                         @if ($coursesProgress->isEmpty() && $ebooks->isEmpty())
                             <div class="col-md-12 d-flex justify-content-center align-items-center">
                                 <div class="not-found text-center">
-                                    <img src="{{ asset('nemolab/member/img/search-not-found.png') }}"
+                                    <img src="{{ asset('devacademy/member/img/search-not-found.png') }}"
                                         class="logo-not-found w-50 h-50" alt="Not Found">
                                     <p class="mt-3">Kelas Tidak Tersedia</p>
                                 </div>
@@ -43,7 +43,7 @@
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
                                                 class="card-img-top" alt="...">
                                         @else
-                                            <img src="{{ asset('nemolab/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
                                                 alt="...">
                                         @endif
                                         <div class="card-body">
@@ -51,7 +51,7 @@
                                         @if ($course->cover != null)
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}" alt="..." style="height: 40px;width: 60px; border-radius: 5px;" class="d-block d-md-none">
                                         @else
-                                            <img src="{{ asset('nemolab/member/img/NemolabBG.jpg') }}" alt="..." style="height: 40px;width: 60px; border-radius: 5px;" class="d-block d-md-none">
+                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" alt="..." style="height: 40px;width: 60px; border-radius: 5px;" class="d-block d-md-none">
                                         @endif
                                         </div> --}}
                                             <div>
@@ -68,7 +68,7 @@
                                                                 alt="" />
                                                         @else
                                                             <img class="me-2"
-                                                                src="{{ asset('nemolab/member/img/icon/Group 7.png') }}"
+                                                                src="{{ asset('devacademy/member/img/icon/Group 7.png') }}"
                                                                 alt="" />
                                                         @endif
                                                         {{ $course->users->name }}
@@ -78,7 +78,7 @@
                                                         <div class="harga">
                                                             <div class="d-flex sertifikat">
                                                                 <img class="me-2 icon-serti" id="check-icon"
-                                                                    src="{{ asset('nemolab/member/img/icon/check-serti.svg') }}"
+                                                                    src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
                                                                     alt="" />
                                                                 <p class="p-0 m-0 fw-semibold">Sertifikat</p>
                                                             </div>
@@ -118,7 +118,7 @@
                         @endforeach
 
 
-                        @foreach ($ebooks as $ebook)
+                        {{-- @foreach ($ebooks as $ebook)
                             @if ($ebook->transactions->isNotEmpty())
                                 <a href="{{ route('member.ebook.join', $ebook->slug) }}"
                                     class="col-md-4 d-flex justify-content-center my-2 pb-3 text-decoration-none">
@@ -127,7 +127,7 @@
                                             <img src="{{ asset('storage/images/covers/' . $ebook->cover) }}"
                                                 class="card-img-top d-none d-md-block" alt="...">
                                         @else
-                                            <img src="{{ asset('nemolab/member/img/NemolabBG.jpg') }}"
+                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}"
                                                 class="card-img-top d-none d-md-block" alt="...">
                                         @endif
                                         <div class="card-body">
@@ -137,7 +137,7 @@
                                                         alt="..." style="height: 40px;width: 60px; border-radius: 5px;"
                                                         class="d-block d-md-none">
                                                 @else
-                                                    <img src="{{ asset('nemolab/member/img/NemolabBG.jpg') }}"
+                                                    <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}"
                                                         alt="..." style="height: 40px;width: 60px; border-radius: 5px;"
                                                         class="d-block d-md-none">
                                                 @endif
@@ -161,7 +161,7 @@
                                     </div>
                                 </a>
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </div>
                 </div>
             </div>
@@ -170,5 +170,5 @@
     @include('components.includes.member.sidebar-dashboard-mobile')
 @endsection
 @push('addon-script')
-    <script src="{{ asset('nemolab/member/js/scroll-dashboard.js') }}"></script>
+    <script src="{{ asset('devacademy/member/js/scroll-dashboard.js') }}"></script>
 @endpush

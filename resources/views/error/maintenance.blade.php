@@ -29,7 +29,7 @@
     <section class="maintenance">
         <div class="container">
             <h1 class="text-uppercase fw-bold fs-1 mb-4" style="color: #827761; font-family: 'Poppins', sans-serif;">ooopsss!!!</h1>
-            <img src="{{ asset('nemolab/member/img/img-maintenance.png') }}" alt="">
+            <img src="{{ asset('devacademy/member/img/img-maintenance.png') }}" alt="">
             <p class="fs-5 mt-4" style="color: #827761; font-family: 'Poppins', sans-serif;">Halaman ini masih belum bisa diakses karena sedang dalam masa pemeliharaan</p>
         </div>
     </section>

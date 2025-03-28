@@ -15,15 +15,6 @@
             padding: 0 !important;
         }
 
-        .btn {
-            border: none;
-            background-color: #faa907 !important;
-        }
-
-        .btn:hover {
-            background-color: #ff7700 !important;
-        }
-
         @media screen and (min-width: 768px) and (max-width: 992px) {
             h1 {
                 font-size: 65px !important;
@@ -54,7 +45,7 @@
         <div class="row">
             <div class="col-5 d-flex align-items-center">
                 <div class="position-absolute top-0 mt-5 ms-5">
-                    <a href="{{ route('home') }}"><img src="{{ asset('nemolab/member/img/logo.png') }}" alt=""
+                    <a href="{{ route('home') }}"><img src="{{ asset('devacademy/member/img/logo.png') }}" alt=""
                             width="120" /></a>
                 </div>
                 <div class="px-5">
@@ -62,24 +53,24 @@
                     <h3 class="fw-normal">Halaman Tidak ditemukan</h3>
                     <p class="m-0 fw-light" style="font-size: 17px; color: #bbbbbb">Halaman yang Anda cari tidak ada
                         atau terjadi kesalahan lainnya, kembali ke halaman beranda.</p>
-                    <a href="{{ route('home') }}" class="btn mt-3 fw-medium text-white">Kembali ke Beranda</a>
+                    <a href="{{ route('home') }}" class="btn btn-primary mt-3 fw-medium text-white">Kembali ke Beranda</a>
                 </div>
             </div>
             <div class="col-7">
                 <div class="position-relative w-100">
-                    <img src="{{ asset('nemolab/member/img/bg-404.png') }}" alt=""
+                    <img src="{{ asset('devacademy/member/img/bg-404.png') }}" alt=""
                         style="height: 100vh; width: 100%" />
-                    <img src="{{ asset('nemolab/member/img/404.png') }}" alt="" height="500"
+                    <img src="{{ asset('devacademy/member/img/404.png') }}" alt="" height="500"
                         class="position-absolute img-404" style="left: 20%; top: 10%" />
                 </div>
             </div>
             <div class="col-12 d-flex justify-content-center align-items-center d-md-none" style="height: 100vh">
                 <div class="position-absolute start-0 top-0 mt-5 ms-5">
-                    <a href="{{ route('home') }}"><img src="{{ asset('nemolab/member/img/logo.png') }}" alt=""
+                    <a href="{{ route('home') }}"><img src="{{ asset('devacademy/member/img/logo.png') }}" alt=""
                             width="100" /></a>
                 </div>
                 <div>
-                    <img src="{{ asset('nemolab/member/img/404-mobile.png') }}" alt="" height="200" />
+                    <img src="{{ asset('devacademy/member/img/404-mobile.png') }}" alt="" height="200" />
                     <h1 class="m-0 mt-3" style="font-size: 50px">OOPS ..</h1>
                     <h4 class="fw-normal">Halaman Tidak ditemukan !!</h4>
                 </div>

@@ -100,6 +100,19 @@
                         </div>
                     </a>
                 @endif
+                @if (!$checkReview)
+                    <a href="{{ route('member.review', $courses->slug) }}">
+                    @else
+                        <a href="{{ route('member.sertifikat', $courses->slug) }}">
+                @endif
+                <div class="card d-flex flex-row p-3">
+                    <img src="{{ asset('devacademy/member/img/img-review.png') }}" alt="">
+                    <div class="card-tittle ms-3">
+                        <h5 class="card-title m-0">Review Kelas</h5>
+                        <p class="card-text">Review untuk feedback</p>
+                    </div>
+                </div>
+                </a>
             </div>
             <hr class="line">
             <h2 class="m-0 p-0 mt-4">
@@ -115,18 +128,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
@@ -139,18 +157,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
@@ -163,18 +186,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
@@ -188,18 +216,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
@@ -212,18 +245,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
@@ -236,18 +274,23 @@
                                 <div class="card mb-4">
                                     <div class="card-body row">
                                         <div class="col-md-2">
-                                            <div class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
-                                                <img class="mx-auto" src="{{ asset('devacademy/member/img/icon/icon-testimonial.png')}}" alt="">
+                                            <div
+                                                class="rounded-circle icon-testi d-flex justify-content-center align-items-center">
+                                                <img class="mx-auto"
+                                                    src="{{ asset('devacademy/member/img/icon/icon-testimonial.png') }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang cara
+                                            <p class="card-text p-0 m-0">Kelas UI/UX ini memberi saya wawasan baru tentang
+                                                cara
                                                 memahami kebutuhan pengguna. Sempurna untuk meningkatkan skill desainmu!</p>
-                                                <hr>
+                                            <hr>
                                             <div class="card-head d-flex align-items-center">
                                                 <img src="{{ asset('devacademy/member/img/dumy-1.jpg') }}" width="45"
-                                                        height="45" style="border-radius: 50%;object-fit:cover" alt="">
-                                                 <div class="name ms-3">
+                                                    height="45" style="border-radius: 50%;object-fit:cover"
+                                                    alt="">
+                                                <div class="name ms-3">
                                                     <h5 class="card-title m-0 fw-bold">Rahmat Hidayat Sianturi</h5>
                                                     <p class="m-0">UI/UX Designer</p>
                                                 </div>
