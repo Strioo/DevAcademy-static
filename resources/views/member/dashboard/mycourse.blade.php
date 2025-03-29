@@ -24,8 +24,10 @@
                             <li><a href="{{ route('member.dashboard', ['filter' => 'ebook']) }}" class="{{ request('filter') == 'ebook' ? 'active' : '' }}">E-Book</a></li>
                         </ul>
                     </div>                                   --}}
+
+                    {{-- Jika kelas tidak ada --}}
                     <div class="row mt-4">
-                        @if ($coursesProgress->isEmpty() && $ebooks->isEmpty())
+                        @if ($coursesProgress->isEmpty())
                             <div class="col-md-12 d-flex justify-content-center align-items-center">
                                 <div class="not-found text-center">
                                     <img src="{{ asset('devacademy/member/img/search-not-found.png') }}"
@@ -43,8 +45,8 @@
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
                                                 class="card-img-top" alt="...">
                                         @else
-                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
-                                                alt="...">
+                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}"
+                                                class="card-img-top" alt="...">
                                         @endif
                                         <div class="card-body">
                                             {{-- <div>
@@ -116,6 +118,363 @@
                                 </a>
                             @endif
                         @endforeach
+
+                        {{-- end code jika kelas tidak ada --}}
+
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
+                            <div class="card">
+                                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" class="card-img-top"
+                                    alt="...">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="title-card">
+                                            <h5 class="fw-bold truncate-text" style="">Belajar Pemula Frontend
+                                            </h5>
+                                        </div>
+                                        <div class="btn-group-harga d-flex justify-content-between mt-md-3">
+                                            {{-- <div class="avatar m-0 fw-bold me-1"> --}}
+                                            <div class="profile mb-0">
+                                                <img class="me-2" src="{{ asset('devacademy/member/img/default.png') }}"
+                                                    alt="" />
+                                                Wahid Satrio Aji
+                                                <p class="tipe mb-0 mt-2">Kelas Frontend</p>
+                                            </div>
+                                            <div class="btn-group-harga d-flex">
+                                                <div class="harga">
+                                                    <div class="d-flex sertifikat">
+                                                        <img class="me-2 icon-serti" id="check-icon"
+                                                            src="{{ asset('devacademy/member/img/icon/check-serti.svg') }}"
+                                                            alt="" />
+                                                        <p class="p-0 m-0 fw-semibold">Sertifikat</p>
+                                                    </div>
+                                                    <p class="p-0 m-0 mt-2 price fw-semibold float-end">
+                                                        {{-- @php
+                                                            $currentBundling = $bundling[$course->id] ?? null;
+                                                        @endphp
+                                                        {{ $currentBundling
+                                                            ? ($currentBundling->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($currentBundling->price, 0, ',', '.'))
+                                                            : ($course->price == 0
+                                                                ? 'Gratis'
+                                                                : 'Rp' . number_format($course->price, 0, ',', '.')) }} --}}
+                                                        Gratis
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div
+                                            class="btn-group-harga d-flex justify-content-between align-items-center mt-md-3 gap-1 gap-md-0">
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0 ">Status: <br class="d-none d-md-block"><span
+                                                        style="color: #666666">Selesai</span></p>
+                                            </div>
+                                            <div class="harga d-block">
+                                                <p class="p-0 m-0">Bergabung: <br class="d-none d-md-block"> <span
+                                                        style="color: #666666">24-2-2025</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
 
 
                         {{-- @foreach ($ebooks as $ebook)
