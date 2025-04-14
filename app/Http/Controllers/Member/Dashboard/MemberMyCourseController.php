@@ -21,9 +21,9 @@ class MemberMyCourseController extends Controller
         $filter = $request->input('filter');
         $lists = MyListCourse::where('user_id', Auth::user()->id)->get();
         $courseIds = $lists->pluck('course_id');
-        
+
         $coursesQuery = Course::whereIn('id', $courseIds)->orderBy('id', 'DESC');
-        
+
         switch ($filter) {
             case 'kursus':
                 $courses = $coursesQuery->get();
@@ -31,7 +31,7 @@ class MemberMyCourseController extends Controller
             default:
                 $courses = $coursesQuery->get();
                 break;
-        }    
+        }
         $coursesProgress = $courses->map(function ($course) {
             $totalLessons = Chapter::where('course_id', $course->id)
                 ->withCount('lessons')
@@ -43,16 +43,16 @@ class MemberMyCourseController extends Controller
             $course->total_lesson = $totalLessons;
             $course->lesson_progress = $lessonProgress;
             $course->status = ($lessonProgress == $totalLessons) ? 'Selesai' : 'Belum Selesai';
-            
+
             return $course;
         });
-    
+
         $total_course = Transaction::where('user_id', Auth::user()->id)
                                     ->where('status', 'success')
                                     ->count();
-    
-        return view('member.dashboard.mycourse', compact('coursesProgress', 'total_course'));
+
+        return view('member.dashboard.mycourse.view', compact('coursesProgress', 'total_course'));
     }
-    
-    
+
+
 }

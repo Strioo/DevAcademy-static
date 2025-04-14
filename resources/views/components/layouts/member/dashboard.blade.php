@@ -21,11 +21,10 @@
 
 <body>
 
-    @if (Auth::check())
-        @include('components.includes.member.navbar-dashboard-auth')
-    @else
-        @include('components.includes.member.navbar-dashboard')
-    @endif
+
+    <!-- navbar -->
+    @include('components.includes.member.navbar')
+    {{-- end navbar --}}
 
 
     <main id="content">
@@ -56,11 +55,12 @@
         AOS.init({
             once: true
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navbarToggler = document.querySelector('.dropdown-logout');
             const registerBtn = document.getElementById('dropdownMenuButton1');
+
             function LinkLogoutFunc() {
                 if (window.innerWidth < 992) {
 
@@ -68,7 +68,7 @@
 
                     registerBtn.setAttribute('data-bs-toggle', 'modal');
                     registerBtn.setAttribute('data-bs-target', '#targetModalLogin');
-                    
+
                 } else {
                     navbarToggler.style.display = 'block';
 
@@ -81,7 +81,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sidebarLinks = document.querySelectorAll(".side-tabs li a");
-            
+
             sidebarLinks.forEach(link => {
                 const linkUrl = new URL(link.href);
                 const currentUrl = new URL(window.location.href);

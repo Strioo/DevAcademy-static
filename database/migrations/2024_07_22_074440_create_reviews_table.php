@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('tbl_courses')->onDelete('cascade');
-            $table->integer('rating')->nullable(false);
             $table->string('note')->nullable();
             $table->timestamps();
         });

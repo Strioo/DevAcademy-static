@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('tbl_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->unsignedBigInteger('course_id')->nullable();
+            $table->foreign('course_id')->references('id')->on('tbl_courses')->nullOnDelete();
             $table->string('transaction_code')->nullable(false);
-            $table->string('name_class');
-            $table->string('type_class');
-            $table->decimal('price', 15, 2);
+            $table->string('code_discount');
+            $table->integer('price');
             $table->enum('status', ['success', 'pending', 'failed', 'refund'])->default('pending');
             $table->string('snap_token')->nullable();
             $table->timestamps();

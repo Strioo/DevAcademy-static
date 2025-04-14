@@ -3,269 +3,280 @@
 
 /* Color Variables */
 :root {
-  --color-blue:#0774FA;
-  --color-orange: #faa907;
-  --hover-orange: #CA8907;
-  --color-grey: #414142;
-  --dim-grey: #696969;
-  --charcoal-gray: #414142;
-  --light-shade: #fdf8f8;
-  --shade-gray: #8f8f8f;
-  --lavender: #fff6f6;
-  --blue: #0774FA;
-  --lavender-mist: #f0eaff;
+    --color-blue: #0774FA;
+    --color-orange: #faa907;
+    --hover-orange: #CA8907;
+    --color-grey: #414142;
+    --dim-grey: #696969;
+    --charcoal-gray: #414142;
+    --light-shade: #fdf8f8;
+    --shade-gray: #8f8f8f;
+    --lavender: #fff6f6;
+    --blue: #0774FA;
+    --lavender-mist: #f0eaff;
 }
 
 /* Global Styles */
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Inter", serif !important;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif !important;
 }
 
 body {
-  background-color: var(--lavender);
+    background-color: var(--lavender);
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 html::-ms-overflow-style {
-  scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 /* Section Styles */
 #section-pilih-kelas .container-fluid .content-kelas {
-  margin-top: 5rem;
+    margin-top: 5rem;
 }
 
 /* Search Group */
 .search-group input,
 .search-group input:focus {
-  font-family: "Nunito", sans-serif;
-  font-size: 16px;
-  width: 260px;
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+    width: 260px;
 }
 
 /* Card Styles */
 .card {
-  width: 25rem;
-  height: auto;
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 25rem;
+    height: auto;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  height: auto;
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    height: auto;
 }
 
 .card img {
-  object-fit: cover;
-  height: 250px;
+    object-fit: cover;
+    height: 250px;
 }
 
 /* Title Styles */
 .title-card h5 {
-  font-size: 18px;
-  color: var(--color-grey);
+    font-size: 18px;
+    color: var(--color-grey);
 }
 
 .title-card p {
-  /* Additional styles can be added here if needed */
+    /* Additional styles can be added here if needed */
 }
 
 .title-card img {
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
 }
 
 .btn-group-harga img {
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
-  object-fit: cover;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
 }
 
 .card .profile {
-  font-weight: 600;
+    font-weight: 600;
 }
 
-.sertifikat img{
-  width: 24px;
-  height: 24px;
+.sertifikat img {
+    width: 24px;
+    height: 24px;
 }
 
-.card .price{
-  color: var(--color-blue) !important;
-  font-size: 20px;
+.card .price {
+    color: var(--color-blue) !important;
+    font-size: 20px;
 }
 
 /* Text Truncation */
 .truncate-text {
-  display: block;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  max-height: 2em;
-  text-overflow: ellipsis;
-  transition: max-height 0.3s ease, -webkit-line-clamp 0.3s ease;
+    display: block;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    max-height: 4em;
+    text-overflow: ellipsis;
+    transition: max-height 0.3s ease, -webkit-line-clamp 0.3s ease;
 }
 
 .card:hover .truncate-text {
-  -webkit-line-clamp: unset;
-  max-height: none;
+    -webkit-line-clamp: unset;
+    max-height: none;
 }
 
 .truncate-text.expanded {
-  white-space: normal;
-  -webkit-line-clamp: unset;
-  max-height: none;
+    white-space: normal;
+    -webkit-line-clamp: unset;
+    max-height: none;
 }
 
 /* Not Found Section */
 .not-found {
-  margin-top: 50px;
-  justify-content: center;
+    margin-top: 50px;
+    justify-content: center;
 }
 
 .not-found img {
-  max-width: 25%;
-  height: auto;
+    max-width: 25%;
+    height: auto;
 }
 
 .not-found p {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #666;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #666;
 }
 
 .pagination {
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.15rem;
-  align-items: center; /* Pastikan semua item sejajar secara vertikal */
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.15rem;
+    align-items: center;
+    /* Pastikan semua item sejajar secara vertikal */
 }
 
-.page-item, .page-item-button {
-  margin: 0 0.2rem;
+.page-item,
+.page-item-button {
+    margin: 0 0.2rem;
 }
+
 .page-item-button .page-link span {
-  font-size: 1.8rem;
-  font-weight: bold;
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
 
 .page-item.disabled .page-link,
 .page-item-button.disabled .page-link {
-  color: var(--blue);
-  background-color: #eeeeee;
-  pointer-events: none;
-  cursor: not-allowed;
+    color: var(--blue);
+    background-color: #eeeeee;
+    pointer-events: none;
+    cursor: not-allowed;
 }
 
 .page-item.active .page-link {
-  color: #fff;
-  background-color: var(--blue);
-  border-color: var(--blue);
+    color: #fff;
+    background-color: var(--blue);
+    border-color: var(--blue);
 }
 
-.page-link, .page-item-button .page-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--blue);
-  background-color: #eeeeee;
-  width: 40px; 
-  height: 40px;
-  border-radius: 50%;
-  transition: all 0.3s;
+.page-link,
+.page-item-button .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    background-color: #eeeeee;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s;
 }
 
-.page-link:hover, .page-item-button .page-link:hover {
-  transform: translateY(-5px);
-  color: #fff;
-  background-color: var(--blue); 
-  border-color: var(--blue);
-  text-decoration: none;
+.page-link:hover,
+.page-item-button .page-link:hover {
+    transform: translateY(-5px);
+    color: #fff;
+    background-color: var(--blue);
+    border-color: var(--blue);
+    text-decoration: none;
 }
 
 .page-link span {
-  display: inline-block;
-  vertical-align: middle;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 
 .no-scroll {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 /* Button Group for Prices */
 .btn-primary {
-  font-size: 16px;
-  color: white;
-  outline: none;
-  border: none;
-  box-shadow: none;
-  font-weight: 600;
-  transition: all 0.5s ease;
-  width: 100%;
+    font-size: 16px;
+    color: white;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    font-weight: 600;
+    transition: all 0.5s ease;
+    width: 100%;
 }
 
 /* Price Styles */
 .harga p:first-child {
-  color: var(--dim-grey);
+    color: var(--dim-grey);
 }
 
 /* Package Styles */
 .paket {
-  color: var(--color-orange);
-  display: flex;
-  font-size: small;
-  font-weight: bolder;
+    color: var(--color-orange);
+    display: flex;
+    font-size: small;
+    font-weight: bolder;
 }
 
 .paket-item {
-  border: 1px solid var(--color-orange);
-  padding: 1px 5px;
-  margin: 0 5px 5px 0;
-  border-radius: 5px;
+    border: 1px solid var(--color-orange);
+    padding: 1px 5px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
 }
 
 .btn-warning {
-  background-color: var(--color-blue) !important;
-  border-color: var(--color-blue) !important;
+    background-color: var(--color-blue) !important;
+    border-color: var(--color-blue) !important;
 }
 
 @media screen and (max-width: 1024px) {
-  .card-container {
-    width: 100%;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  .row {
-      margin: 0 !important;
-  }
-  #course-card {
-    width: 100%;
-    padding: 0 !important;
-  }
-  .pe-md-4 {
-    padding-right: 0px !important;
-  }
-  .not-found img {
-    max-width: 100% !important;
-  }
+    .card-container {
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .row {
+        margin: 0 !important;
+    }
+
+    #course-card {
+        width: 100%;
+        padding: 0 !important;
+    }
+
+    .pe-md-4 {
+        padding-right: 0px !important;
+    }
+
+    .not-found img {
+        max-width: 100% !important;
+    }
 }
+
 /* Responsive Design */
 /* @media (max-width: 568px) {
   .filter-head {

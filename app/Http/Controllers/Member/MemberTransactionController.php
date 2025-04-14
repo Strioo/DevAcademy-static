@@ -20,16 +20,10 @@ class MemberTransactionController extends Controller
         $status = $request->input('status');
 
         $transactions = Transaction::with([
-                'course' => function ($query) {
-                    $query->select('id', 'name', 'cover', 'price');
-                },
-                'ebook' => function ($query) {
-                    $query->select('id', 'name', 'cover', 'price');
-                },
-                'bundle.course' => function ($query) {
-                    $query->select('id', 'name', 'cover', 'price');
-                }
-            ])
+            'course' => function ($query) {
+                $query->select('id', 'name', 'cover', 'price');
+            }
+        ])
             ->where('user_id', Auth::id())
             ->when($status, function ($query, $status) {
                 return $query->where('status', $status);
@@ -40,12 +34,12 @@ class MemberTransactionController extends Controller
         return view('member.dashboard.transaction.view', compact('transactions', 'status'));
     }
 
-    public function show(Request $requests, $transaction_code){
-        $transaction = Transaction::where('transaction_code', $transaction_code)->first();
-        $details = detailTransactions::where('transaction_code', $transaction_code)->first();
+    public function show(Request $requests, $transaction_code)
+    {
+        $transaction = Transaction::with('course')->where('transaction_code', $transaction_code)->first();
         if ($transaction) {
             if ($transaction->status == 'success' || $transaction->status == 'failed') {
-                return view('member.dashboard.transaction.show-payment', compact('details'));
+                return view('member.dashboard.transaction.show-payment', compact('transaction'));
             } else {
                 Alert::error('Error', 'Maaf Anda Tidak Bisa Akses Detail Transaction, Status Anda Masih Pending!!!');
                 return redirect()->route('member.transaction');
@@ -60,11 +54,8 @@ class MemberTransactionController extends Controller
     public function cancel($id)
     {
         $transaction = Transaction::findOrFail($id);
-        $details = detailTransactions::where('transaction_code', $transaction->transaction_code);
         $transaction->delete();
-        $details->delete();
         Alert::success('Success', 'Transaction Berhasil Di Cancel');
         return redirect()->route('member.transaction');
     }
-
 }

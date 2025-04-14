@@ -3,11 +3,11 @@
         <div class="sidebar" id="sidebar">
             <h5 class="tittle-sidebar text-center mb-5">Dashboard Saya</h5>
             <div class="profile d-flex">
-                @if (Auth::user()->avatar != null)
+                @if (Auth::user()->avatar != 'default.png')
                     <img src="{{ asset('storage/images/avatars/' . Auth::user()->avatar) }}" alt="avatar"
                         class="avatar class mb-3 rounded-circle" />
                 @else
-                    <img src="{{ asset('devacademy/member/img/icon/Group 7.png') }}" alt="avatar"
+                    <img src="{{ asset('devacademy/member/img/default.png') }}" alt="avatar"
                         class="avatar class mb-3 rounded-circle" />
                 @endif
                 <div>

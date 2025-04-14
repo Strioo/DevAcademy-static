@@ -13,7 +13,7 @@ use App\Http\Controllers\Member\Dashboard\MemberMyCourseController;
 use App\Http\Controllers\Member\MemberPaymentController;
 use App\Http\Controllers\Member\MemberTransactionController;
 use App\Http\Controllers\Member\MemberReviewController;
-use App\Http\Controllers\Member\MemberCourseController;
+use App\Http\Controllers\Member\Courses\MemberCourseController;
 
 // admin routes
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
@@ -51,7 +51,7 @@ Route::prefix('member')->group(function () {
 
     // member course
     Route::prefix('course')->group(function () {
-        Route::get('/', [MemberCourseController::class, 'index'])->name('member.course')->middleware('cache.headers:public;max_age=31536000;etag');
+        Route::get('/', [MemberCourseController::class, 'index'])->name('member.course')->middleware('students', 'verified');
         Route::get('join/{slug}', [MemberCourseController::class, 'join'])->name('member.course.join')->middleware(['students', 'verified']);
         Route::get('{slug}/play/episode/{episode}', [MemberCourseController::class, 'play'])->name('member.course.play')->middleware(['students', 'verified']);
         Route::get('detail/{slug}', [MemberCourseController::class, 'detail'])->name('member.course.detail')->middleware(['students', 'verified']);
@@ -130,8 +130,8 @@ Route::prefix('admin')->group(function () {
     Route::post('login/auth', [AdminLoginController::class, 'login'])->name('admin.login.auth');
     Route::get('logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-    Route::get('/', [AdminCategoryController::class, 'index'])->middleware(['superadmin', 'verified'])->name('admin.category');
-    Route::prefix('category')->middleware(['superadmin', 'verified'])->group(function () {
+    Route::get('/', [AdminCategoryController::class, 'index'])->middleware(['mentor', 'verified'])->name('admin.category');
+    Route::prefix('category')->middleware(['mentor', 'verified'])->group(function () {
         Route::get('/create', [AdminCategoryController::class, 'create'])->name('admin.category.create');
         Route::post('/create/store', [AdminCategoryController::class, 'store'])->name('admin.category.create.store');
         Route::get('/edit/{id}', [AdminCategoryController::class, 'edit'])->name('admin.category.edit');

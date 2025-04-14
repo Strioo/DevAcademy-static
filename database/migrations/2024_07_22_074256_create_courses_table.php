@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('cover')->nullable(false);
             $table->enum('type', ['free', 'premium']);
             $table->enum('status', ['draft', 'published']);
-            $table->decimal('price', 10, 2)->nullable(false);
+            $table->integer('price')->nullable(false);
             $table->enum('level', ['beginner', 'intermediate', 'expert']);
             $table->text('sort_description')->nullable(false);
             $table->text('long_description')->nullable(false);

@@ -14,17 +14,20 @@ class Transaction extends Model
     protected $fillable = [
         'transaction_code',
         'user_id',
-        'name_class',
-        'type_class',
+        'course_id',
+        'code_discount',
         'price',
         'status',
         'snap_token',
     ];
 
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 }

@@ -10,11 +10,10 @@ class Review extends Model
     use HasFactory;
 
     protected $table = 'tbl_reviews';
-    
+
     protected $fillable = [
         'user_id',
-        'course_id', 
-        'ebook_id',
+        'course_id',
         'note',
     ];
 
@@ -28,8 +27,5 @@ class Review extends Model
     {
         return $this->belongsTo(Course::class);
     }
-    public function ebook()
-    {
-        return $this->belongsTo(Ebook::class);
-    }
+
 }

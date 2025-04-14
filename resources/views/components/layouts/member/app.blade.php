@@ -21,12 +21,9 @@
 
 <body>
 
-    @if (Auth::check())
-        @include('components.includes.member.navbar-auth')
-    @else
-        @include('components.includes.member.navbar')
-    @endif
-
+    <!-- navbar -->
+    @include('components.includes.member.navbar')
+    {{-- end navbar --}}
 
     <main id="content">
         {{-- content --}}

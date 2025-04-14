@@ -30,7 +30,7 @@
                                         <h6 class="fw-bold">Foto Profil</h6>
                                         <p>Ukuran Foto Maksimal (1 MB)</p>
                                     </div>
-                                    <img src="{{ Auth::user()->avatar !== null ? asset('storage/images/avatars/' . Auth::user()->avatar) : asset('devacademy/member/img/icon/Group 7.png') }}"
+                                    <img src="{{ Auth::user()->avatar !== 'default.png' ? asset('storage/images/avatars/' . Auth::user()->avatar) : asset('devacademy/member/img/default.png') }}"
                                         alt="avatar" width="130" height="130" class="avatar mb-3"
                                         style="border-radius: 50%; object-fit: cover;" id="avatarPreview" />
                                     <input type="file" id="fileUpload" name="avatar" class="d-none">
@@ -127,10 +127,10 @@
             const submitButton = document.getElementById('submitButton');
 
             // Asal warna default
-            const defaultBackground = '#fff'; 
+            const defaultBackground = '#fff';
             const changedBackground = '#E8E8E8';
-            const defaultButtonColor = '#ce8e0e'; 
-            const changedButtonColor = '#faa907'; 
+            const defaultButtonColor = '#ce8e0e';
+            const changedButtonColor = '#faa907';
 
             // Deteksi perubahan
             inputs.forEach(input => {

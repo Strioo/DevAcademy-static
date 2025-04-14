@@ -1,127 +1,131 @@
 @extends('components.layouts.member.app')
 
-@section('title', 'Play Kursus')
+@section('title', 'Devacademy - Detail Kursus')
 
 @push('prepend-style')
-    <link rel="stylesheet" href="{{ asset('devacademy/member/css/play.css') }} ">
+    <link rel="stylesheet" href="{{ asset('devacademy/member/css/joincourse.css') }}">
 @endpush
 
 @section('content')
-    <!-- section 1 -->
-    <section class="view-course-section" id="view-course-section">
-        <div class="container-fluid container-non-rating">
-            <div class="row justify-content-between video">
-                <div class="col-11 col-lg-8 ">
-                    <iframe id="youtubePlayer" width="100%" height="100%" src="{{ $play->video }}"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="col-11 col-lg-4 mt-5 mt-lg-0  ps-0 py-3">
-                    <div class="card mt-4 mt-sm-0">
-                        <div class="card-body overflow-y-scroll ps-lg-0 ps-sm-4">
-                            @foreach ($chapters as $chapter)
-                                <div class="content mb-5">
-                                    <h5 class="m-0 p-0">{{ $chapter->name }}</h5>
-                                    <div class="link-source mt-3">
-                                        @foreach ($chapter->lessons as $lesson)
-                                            <div
-                                                class="link d-flex align-items-center mb-3 {{ request()->route('episode') === $lesson->episode ? 'active-course' : '' }}">
-                                                <a href="{{ route('member.course.play', ['slug' => $slug, 'episode' => $lesson->episode]) }}"
-                                                    class="text-wrap flex-grow-1 play-video "
-                                                    data-episode-id="{{ $lesson->id }}"
-                                                    data-course-id="{{ $courses->id }}">{{ $lesson->name }}</a>
-                                                {{-- <img src="{{ asset('devacademy/member/img/check-course.png') }}"
-                                                    alt=""
-                                                    class="check-icon {{ in_array($lesson->id, $epComplete) ? '' : 'd-none' }}"
-                                                    id="check-icon-{{ $lesson->id }}"> --}}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endforeach
+    <main class="container-fluid mt-5 pt-5 pb-5 px-0">
+        <div class="container px-0">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-tittle">
+                        <h1 data-aos="fade-right" style="word-wrap: break-word; white-space: normal;">{{ $courses->name }}
+                        </h1>
+                        <h5 class="mt-3">Deskripsi Kursus</h5>
+                        <p style="max-width: 90%;">{{ $courses->sort_description }}</p>
+                        <div class="keuntungan mt-3">
+                            <h5>Keuntungan belajar kelas ini</h5>
+                            <ul class="check-active-group mt-3 list-unstyled d-flex gap-4">
+                                <!-- Changed to ul and added list-unstyled -->
+                                <li class="check-active d-flex align-items-center" data-aos="zoom-out">
+                                    <img src="{{ asset('devacademy/member/img/icon/ph_check-bold.png') }}" alt="Check">
+                                    <p class="m-0 p-0 ms-2">Akses kelas selamanya</p>
+                                </li>
+                                <li class="check-active d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+                                    <img src="{{ asset('devacademy/member/img/icon/ph_check-bold.png') }}" alt="Check">
+                                    <p class="m-0 p-0 ms-2">Asset Gratis</p>
+                                </li>
+                                <li class="check-active d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+                                    <img src="{{ asset('devacademy/member/img/icon/ph_check-bold.png') }}" alt="Check">
+                                    <p class="m-0 p-0 ms-2">Belajar Gratis</p>
+                                </li>
+                            </ul>
                         </div>
+
+                        @if ($courses->price != 0)
+                            <h4 class="price ">Rp. {{ number_format($courses->price, 0, ',', '.') }}</h4>
+                        @else
+                            <h4 class="price ">Gratis</h4>
+                        @endif
+
+
+                        @if ($transaction)
+                            @if ($transaction->status == 'pending')
+                                <a href="#" class="buy btn btn-primary py-2 w-100">Dalam Proses Pembayaran</a>
+                            @elseif ($transaction->status == 'success')
+                                @if ($lesson->count() > 0)
+                                    <a href="{{ route('member.course.play', ['slug' => $courses->slug, 'episode' => $lesson->slug_episode]) }}"
+                                        class="buy btn btn-primary py-2 w-100">Mulai Belajar</a>
+                                @else
+                                    <a href="#" class="buy btn btn-primary py-2 w-100">Kelas Dalam Pembaruan</a>
+                                @endif
+                            @else
+                                <a href="{{ route('member.payment', ['course_id' => $courses->id]) }}"
+                                    class="buy btn btn-primary py-2 w-100">Ambil Kelas</a>
+                            @endif
+                        @else
+                            <a href="{{ route('member.payment', ['course_id' => $courses->id]) }}"
+                                class="buy btn btn-primary py-2 w-100">Ambil Kelas</a>
+                        @endif
                     </div>
                 </div>
-            </div>
-            <h2 class="m-0 p-0 mt-5">
-                Episode: {{ $play->name }}
-            </h2>
-            {{-- <div class="link-group d-block mt-3 mt-sm-4">
-                @if (!is_null($paketKelas))
-                    <a href="{{ route('member.ebook.join', $paketKelas->ebook->slug) }}" class="btn btn-primary w-100">Belajar E-Book</a>
-                @endif
-                <a href="{{ route('member.course.detail', $courses->slug) }}" class="btn btn-secondary w-100 mt-1">Detail Kelas</a>
-            </div> --}}
-            <h2 class="m-0 p-0 mt-3">
-                Deskripsi Khusus
-            </h2>
-            <p class="deskripsi-text mt-2 mb-4">
-                Di kursus ini kamu akan belajar bagaimana cara memanfaatkan teknologi yang sedang marak digunakan yaitu
-                ChatGPT untuk mempermudah kamu saat membuat sebuah desain website ataupun aplikasi. Segera gabung di kursus
-                kami untuk belajar mengenai dunia UI/UX Designer lebih dalam.
-            </p>
-            <hr class="line">
-            <h2 class="m-0 p-0 mt-4">
-                Dalam Materi ini
-            </h2>
-            <div class="group-materi d-flex gap-5 mt-3 mb-4">
-                <a href="{{ $courses->link_grub }}">
-                    <div class="card d-flex flex-row p-3">
-                        <img src="{{ asset('devacademy/member/img/img-konsultasi.png') }}" alt="">
-                        <div class="card-tittle ms-3">
-                            <h5 class="card-title m-0">Grup Diskusi</h5>
-                            <p class="card-text">Gabung Grup Diskusi</p>
-                        </div>
-                    </div>
-                </a>
-                @if (!$checkReview)
-                    <a href="{{ route('member.review', $courses->slug) }}">
-                    @else
-                        <a href="{{ route('member.sertifikat', $courses->slug) }}">
-                @endif
-                <div class="card d-flex flex-row p-3">
-                    <img src="{{ asset('devacademy/member/img/img-achievement.png') }}" alt="">
-                    <div class="card-tittle ms-3">
-                        <h5 class="card-title m-0">Unduh Sertifikat</h5>
-                        <p class="card-text">Unduh Sertifikat Anda</p>
+                <div class="col-md-4">
+                    <div class="card card-preview p-0">
+                        @if ($courses->cover != null)
+                            <img src="{{ asset('storage/images/covers/' . $courses->cover) }}" alt="">
+                        @else
+                            <img src="{{ asset('devacademy/member/img/courseBG.png') }}" alt="">
+                        @endif
                     </div>
                 </div>
-                </a>
-                @if ($courses->resources != 'null')
-                    <a href="{{ $courses->resources }}">
-                        <div class="card d-flex flex-row p-3">
-                            <img src="{{ asset('devacademy/member/img/img-asset.png') }}" alt="">
-                            <div class="card-tittle ms-3">
-                                <h5 class="card-title m-0">Asset Belajar</h5>
-                                <p class="card-text">Unduh Asset Belajar</p>
+                <div class="col-md-8 mt-4">
+                    <div class="card card-materi">
+                        <h5 class="text-black">Materi</h5>
+                        {!! $courses->long_description !!}
+                    </div>
+                </div>
+                <div class="col-md-4 mt-4">
+                    <div class="card card-detail">
+                        <h5 class="text-black">Detail</h5>
+                        <div class="d-flex">
+                            <div class="head">
+                                <ul class="p-0 m-0 d-flex flex-column gap-3">
+                                    <li>Tanggal rilis </li>
+                                    <li>Tanggal Update </li>
+                                    <li>Jenis Paket </li>
+                                    <li>Tingkatan</li>
+                                </ul>
+                            </div>
+                            <div class="answer ms-4">
+                                <ul class="m-0 d-flex flex-column gap-3">
+                                    <li>: 2 Oktober 2024</li>
+                                    <li>: -</li>
+                                    <li>: Kursus</li>
+                                    <li>: Pemula</li>
+                                </ul>
                             </div>
                         </div>
-                    </a>
-                @endif
-                @if (!$checkReview)
-                    <a href="{{ route('member.review', $courses->slug) }}">
-                    @else
-                        <a href="{{ route('member.sertifikat', $courses->slug) }}">
-                @endif
-                <div class="card d-flex flex-row p-3">
-                    <img src="{{ asset('devacademy/member/img/img-review.png') }}" alt="">
-                    <div class="card-tittle ms-3">
-                        <h5 class="card-title m-0">Review Kelas</h5>
-                        <p class="card-text">Review untuk feedback</p>
+                    </div>
+                    <div class="card .card-tools mt-2 d-flex ">
+                        <h5>Tools</h5>
+                        <div class="container-tools d-flex gap-3">
+                            <div class="tools d-flex mt-3  align-items-center justify-content-center">
+                                @foreach ($coursetools->tools as $tool)
+                                    <div
+                                        class="card-tool py-3 px-3 d-flex flex-column align-items-center justify-content-center">
+                                        <img src="{{ asset('storage/images/logoTools/' . $tool->logo_tools) }}"
+                                            alt="" class="" width="50" height="50">
+                                        <p class="mb-0 mt-2 align-middle text-center">{{ $tool->name_tools }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
-                </a>
             </div>
-            <hr class="line">
-            <h2 class="m-0 p-0 mt-4">
-                Rating Materi
-            </h2>
         </div>
-        <section id="section-rating">
+
+        <section class="section-testimoni-kelas mt-5 me-0 px-0" id="section-testimoni-kelas" data-aos="fade-up">
+            <div class="container">
+                <div class="testimoni-title pb-5 col-8">
+                    <h1 data-aos="fade-right">Testimoni</h1>
+                </div>
+            </div>
             <div class="container-fluid row p-0 m-0">
-                <div class="row  p-0 mt-4" id="testimonials">
+                <div class="row  p-0" id="testimonials">
                     <div class="col-md-12 p-0 carousel-container">
                         <div class="carousel-track d-flex" style="margin-left: -500px">
                             <div class="col-xl-2 col-md-3 col-sm-3 carousel-run ms-3 d-flex justify-content-center">
@@ -304,23 +308,54 @@
                 </div>
             </div>
         </section>
-    </section>
-@endsection
+    </main>
 
+    </main>
+@endsection
 @push('addon-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const playVideoLinks = document.querySelectorAll('.play-video');
+            const showMoreBtn = document.getElementById('show-more-btn');
+            let currentLimit = 4;
 
-            playVideoLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Tidak perlu fetch, langsung redirect ke route member.course.play
-                    e.preventDefault();
-                    window.location.href = this.href;
-                });
+            showMoreBtn.addEventListener('click', function() {
+                const reviews = document.querySelectorAll('.review-item');
+                for (let i = currentLimit; i < currentLimit + 4 && i < reviews.length; i++) {
+                    reviews[i].style.display = 'block';
+                }
+                currentLimit += 4;
+                if (currentLimit >= reviews.length) {
+                    showMoreBtn.style.display = 'none';
+                }
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let swiper;
+
+            function initializeSwiper() {
+                if (window.innerWidth < 768 && !swiper) {
+                    swiper = new Swiper('.swiper-container', {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                    });
+                } else if (window.innerWidth >= 768 && swiper) {
+                    swiper.destroy(true, true);
+                    swiper = undefined;
+                }
+            }
+            initializeSwiper();
+            window.addEventListener('resize', initializeSwiper);
         });
     </script>
 @endpush
