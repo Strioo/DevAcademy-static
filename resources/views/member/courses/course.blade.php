@@ -62,8 +62,13 @@
                                 @foreach ($courses as $course)
                                     <div class="col-md-4 col-12 d-flex justify-content-center my-1 pb-3">
                                         <div class="card d-block flex-row">
-                                            <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
-                                                class="card-img-top d-block" alt="hero course" />
+                                            @if ($course->cover && $course->cover != '' && file_exists(public_path('storage/images/covers/' . $course->cover)))
+                                                <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
+                                                    class="card-img-top d-block" alt="hero course" />
+                                            @else
+                                                <img src="{{ asset('devacademy/member/img/courseBG.png') }}"
+                                                    class="card-img-top d-block" alt="hero course" />
+                                            @endif
                                             <div class="card-body">
                                                 <div class="title-card">
                                                     <h5 class="fw-bold truncate-text">{{ $course->category }}: <br>

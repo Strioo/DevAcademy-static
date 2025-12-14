@@ -3,23 +3,34 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
+use App\Services\DummyDataService;
 
+/**
+ * LandingpageController - Controller untuk halaman utama (homepage)
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Original: Course::with('users')->where('status', 'published')->inRandomOrder()->take(8)->get()
+ */
 class LandingpageController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display the homepage with random published courses
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        // Mengambil data kursus yang memiliki status 'published'
-        // Data kursus juga dimuat dengan relasi 'users
-        // Data kursus dipilih secara acak menggunakan inRandomOrder() dan dibatasi sebanyak 8 kursus
-        $courses = Course::with('users')->where('status', 'published')
-            ->inRandomOrder() // Pilih secara acak
-            ->take(8)          // Batasi hasilnya menjadi 8 kursus
-            ->get();
-        // Mengambil semua ID kursus yang termasuk dalam bundle
+        // DUMMY DATA: Mengambil 8 kursus acak yang sudah dipublikasikan
+        // Original: Course::with('users')->where('status', 'published')->inRandomOrder()->take(8)->get()
+        $courses = $this->dummyService->getRandomCourses(8);
 
-
-        // Mengirimkan data kursus dan ID bundle ke view 'member.home'
         return view('member.home', compact('courses'));
     }
 }

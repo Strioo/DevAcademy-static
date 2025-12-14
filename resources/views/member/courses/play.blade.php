@@ -12,18 +12,23 @@
         <div class="container-fluid container-non-rating">
             <div class="row justify-content-between video">
                 <div class="col-11 col-lg-8 ">
-                    <iframe id="youtubePlayer" width="100%" height="100%" src="{{ $play->link_videos }}"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    <iframe id="youtubePlayer" 
+                        width="100%" 
+                        height="100%" 
+                        src="{{ $play->link_videos }}" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
                         allowfullscreen>
                     </iframe>
                 </div>
                 <div class="col-11 col-lg-4 mt-5 mt-lg-0  ps-0 py-3">
                     <div class="card mt-4 mt-sm-0">
-                        <div class="card-body overflow-y-scroll ps-lg-0 ps-sm-4">
+                        <div class="card-body overflow-y-scroll p-4">
                             @foreach ($chapters as $chapter)
                                 <div class="content mb-5">
-                                    <h5 class="m-0 p-0">{{ $chapter->name }}</h5>
+                                    <h5 class="m-0 p-0 mb-3">{{ $chapter->name }}</h5>
                                     <div class="link-source mt-3">
                                         @foreach ($chapter->lessons as $lesson)
                                             <div
@@ -58,11 +63,11 @@
             </h2>
             <div class="group-materi d-flex gap-5 mt-3 mb-4">
                 <a href="{{ $courses->link_groups }}">
-                    <div class="card d-flex flex-row p-3">
-                        <img src="{{ asset('devacademy/member/img/img-konsultasi.png') }}" alt="">
+                    <div class="card d-flex flex-row p-4">
+                        <img src="{{ asset('devacademy/member/img/img-konsultasi.png') }}" alt="" style="width: 50px; height: 50px; object-fit: contain;">
                         <div class="card-tittle ms-3">
-                            <h5 class="card-title m-0">Grup Diskusi</h5>
-                            <p class="card-text">Gabung Grup Diskusi</p>
+                            <h5 class="card-title m-0 mb-2">Grup Diskusi</h5>
+                            <p class="card-text m-0">Gabung Grup Diskusi</p>
                         </div>
                     </div>
                 </a>
@@ -71,21 +76,21 @@
                     @else
                         <a href="{{ route('member.sertifikat', $courses->slug) }}">
                 @endif
-                <div class="card d-flex flex-row p-3">
-                    <img src="{{ asset('devacademy/member/img/img-achievement.png') }}" alt="">
+                <div class="card d-flex flex-row p-4">
+                    <img src="{{ asset('devacademy/member/img/img-achievement.png') }}" alt="" style="width: 50px; height: 50px; object-fit: contain;">
                     <div class="card-tittle ms-3">
-                        <h5 class="card-title m-0">Unduh Sertifikat</h5>
-                        <p class="card-text">Unduh Sertifikat Anda</p>
+                        <h5 class="card-title m-0 mb-2">Unduh Sertifikat</h5>
+                        <p class="card-text m-0">Unduh Sertifikat Anda</p>
                     </div>
                 </div>
                 </a>
                 @if ($courses->resources != 'null')
                     <a href="{{ $courses->resources }}">
-                        <div class="card d-flex flex-row p-3">
-                            <img src="{{ asset('devacademy/member/img/img-asset.png') }}" alt="">
+                        <div class="card d-flex flex-row p-4">
+                            <img src="{{ asset('devacademy/member/img/img-asset.png') }}" alt="" style="width: 50px; height: 50px; object-fit: contain;">
                             <div class="card-tittle ms-3">
-                                <h5 class="card-title m-0">Asset Belajar</h5>
-                                <p class="card-text">Unduh Asset Belajar</p>
+                                <h5 class="card-title m-0 mb-2">Asset Belajar</h5>
+                                <p class="card-text m-0">Unduh Asset Belajar</p>
                             </div>
                         </div>
                     </a>
@@ -95,11 +100,11 @@
                     @else
                         <a href="{{ route('member.sertifikat', $courses->slug) }}">
                 @endif
-                <div class="card d-flex flex-row p-3">
-                    <img src="{{ asset('devacademy/member/img/img-review.png') }}" alt="">
+                <div class="card d-flex flex-row p-4">
+                    <img src="{{ asset('devacademy/member/img/img-review.png') }}" alt="" style="width: 50px; height: 50px; object-fit: contain;">
                     <div class="card-tittle ms-3">
-                        <h5 class="card-title m-0">Review Kelas</h5>
-                        <p class="card-text">Review untuk feedback</p>
+                        <h5 class="card-title m-0 mb-2">Review Kelas</h5>
+                        <p class="card-text m-0">Review untuk feedback</p>
                     </div>
                 </div>
                 </a>

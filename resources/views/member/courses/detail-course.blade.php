@@ -14,10 +14,10 @@
             </a>
             <h4 class="m-0 p-0 mt-5 mb-4 text-center">{{ $courses->name }}</h4>
             <div class="content-images d-flex justify-content-center">
-                @if ($courses->cover !=null)
+                @if ($courses->cover && $courses->cover != '' && file_exists(public_path('storage/images/covers/' . $courses->cover)))
                 <img src="{{ asset('storage/images/covers/' . $courses->cover) }}" alt="" class="img-fluid" width="900" height="800" style="border-radius: 15px; box-shadow: rgba(32, 32, 32, 0.322) 0px 8px 24px; object-fit: cover">
                 @else
-                <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}" alt="" class="img-fluid" width="900" height="800" style="border-radius: 15px; box-shadow: rgba(32, 32, 32, 0.322) 0px 8px 24px; object-fit: cover">
+                <img src="{{ asset('devacademy/member/img/courseBG.png') }}" alt="" class="img-fluid" width="900" height="800" style="border-radius: 15px; box-shadow: rgba(32, 32, 32, 0.322) 0px 8px 24px; object-fit: cover">
                 @endif
             </div>
             <div class="subcontent-images mt-5">
@@ -61,10 +61,10 @@
             </div>
             <div class="detail-courses mt-5 shadow-sm">
                 <div class="card">
-                    <div class="card-header p-0">
+                    <div class="card-header p-3">
                         <h5 class="m-0">Detail</h5>
                     </div>
-                    <div class="card-body d-flex align-items-center p-0 pt-3">
+                    <div class="card-body d-flex align-items-center p-3 pt-4">
                         <div class="text">
                             <p class="m-0 p-0">Tanggal rilis </p>
                             <p class="m-0 p-0">Jenis paket </p>
@@ -99,28 +99,44 @@
             </div>
             <div class="description-courses mt-5 shadow-sm">
                 <div class="card">
-                    <div class="card-header p-0">
+                    <div class="card-header p-3">
                         <h5 class="m-0">Deskripsi Kursus</h5>
                     </div>
-                    <div class="card-body d-flex align-items-center p-0 pt-3">
-                        <p class="m-0 p-0 ">{{ $courses->description }}</p>
+                    <div class="card-body d-flex align-items-center p-3 pt-4">
+                        <p class="m-0 p-0">{{ $courses->description }}</p>
                     </div>
                 </div>
             </div>
             <div class="tools-courses mt-5 shadow-sm">
                 <div class="card">
-                    <div class="card-header p-0">
+                    <div class="card-header p-3">
                         <h5 class="m-0">Tools</h5>
                     </div>
-                    <div class="card-body p-0 pt-3 ">
+                    <div class="card-body p-3 pt-4">
 
-                        <div class="row">
+                        <div class="row g-4">
                             @foreach ($coursetools->tools as $tool)
-                                <div
-                                    class="col-6 col-sm-2 tools-group d-flex justify-content-center align-items-center flex-column">
-                                    <img src="{{ asset('storage/images/logoTools/' . $tool->logo_tools) }}" alt=""
-                                        width="70px" height="70px">
-                                    <p class="m-0 p-0 pt-1">{{ $tool->name_tools }}</p>
+                                <div class="col-6 col-sm-3 col-md-2 tools-group d-flex justify-content-center align-items-center flex-column p-3">
+                                    @php
+                                        $iconMap = [
+                                            'Figma' => 'Figma.svg',
+                                            'Adobe XD' => 'Adobe_XD.png',
+                                            'Flutter' => 'flutter.png',
+                                            'Laravel' => 'Laravel.png',
+                                            'React' => 'react.png',
+                                            'Node.js' => 'nodejs.svg',
+                                            'Nodejs' => 'nodejs.svg',
+                                            'GitHub' => 'github.svg',
+                                            'Postman' => 'postman.png',
+                                            'Visual Studio Code' => 'visual-studio-code.png',
+                                            'VS Code' => 'visual-studio-code.png',
+                                        ];
+                                        $iconFile = $iconMap[$tool->name_tools] ?? null;
+                                        $iconPath = $iconFile ? 'devacademy/member/img/icon/tech-stack/' . $iconFile : 'storage/images/logoTools/' . $tool->logo_tools;
+                                    @endphp
+                                    <img src="{{ asset($iconPath) }}" alt="{{ $tool->name_tools }}"
+                                        width="70px" height="70px" style="object-fit: contain;">
+                                    <p class="m-0 p-0 pt-2 text-center fw-medium">{{ $tool->name_tools }}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -136,8 +152,8 @@
                             <div class="col-12 col-md-6 review-item" data-index="{{ $index }}"
                                 style="{{ $index >= 2 ? 'display: none;' : '' }}">
                                 <div class="card mb-4 border-0">
-                                    <div class="card-body">
-                                        <div class="card-head d-flex align-items-center">
+                                    <div class="card-body p-4">
+                                        <div class="card-head d-flex align-items-center mb-3">
                                             <img src="{{ asset('storage/images/avatars/' . ($review->user->avatar ?? 'default-avatar.png')) }}"
                                                 alt="" width="45" height="45" style="border-radius: 50%">
                                             <div class="name ms-3">
@@ -145,7 +161,7 @@
                                                 <p class="m-0">{{ $review->user->proffession }}</p>
                                             </div>
                                         </div>
-                                        <p class="card-text p-0 m-0 mt-2">{{ $review->note }}.</p>
+                                        <p class="card-text p-0 m-0 mt-3">{{ $review->note }}.</p>
                                     </div>
                                 </div>
                             </div>

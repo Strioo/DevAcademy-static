@@ -64,7 +64,7 @@
                             <div class="col-md-6 col-xl-3 col-lg-4 col-12 d-flex justify-content-center my-2 pb-2">
                                 <div class="card d-flex d-md-block" id="card-hover">
                                     <div class="card-head ">
-                                        @if ($course->cover != null)
+                                        @if ($course->cover && $course->cover != '' && file_exists(public_path('storage/images/covers/' . $course->cover)))
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
                                                 class="card-img-top" alt="{{ $course->name }}" />
                                         @else
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="btn-group-harga d-flex justify-content-between mt-md-3">
                                             <div class="avatar m-0 fw-bold me-1 d-flex">
-                                                @if ($course->users && $course->users->avatar)
+                                                @if ($course->users && $course->users->avatar && $course->users->avatar !== 'default.png')
                                                     <img class="me-2"
                                                         src="{{ asset('storage/images/avatars/' . $course->users->avatar) }}"
                                                         alt="" />
@@ -128,30 +128,30 @@
                 <p>Temukan kursus yang sesuai dengan minatmu dan mulai belajar dari sekarang!</p>
             </div>
             <div class="d-flex flex-md-row card-group gap-3">
-                <div class="card p-3">
-                    <img src="{{ asset('devacademy/member/img/icon/pentool-hover.png') }}" alt="">
-                    <h4>Graphic Designer</h4>
-                    <p>Jadi ahli dalam desain visual yang menarik</p>
+                <div class="card p-4">
+                    <img src="{{ asset('devacademy/member/img/icon/pentool-hover.png') }}" alt="" class="mb-3" style="width: 60px; height: 60px; object-fit: contain;">
+                    <h4 class="mb-2">Graphic Designer</h4>
+                    <p class="mb-0">Jadi ahli dalam desain visual yang menarik</p>
                 </div>
-                <div class="card p-3">
-                    <img src="{{ asset('devacademy/member/img/icon/UI-UX-designer.png') }}" alt="">
-                    <h4>UI/UX Designer</h4>
-                    <p>Belajar desain pengalaman dan tampilan pengguna</p>
+                <div class="card p-4">
+                    <img src="{{ asset('devacademy/member/img/icon/UI-UX-designer.png') }}" alt="" class="mb-3" style="width: 60px; height: 60px; object-fit: contain;">
+                    <h4 class="mb-2">UI/UX Designer</h4>
+                    <p class="mb-0">Belajar desain pengalaman dan tampilan pengguna</p>
                 </div>
-                <div class="card p-3">
-                    <img src="{{ asset('devacademy/member/img/icon/fe-dev.png') }}" alt="">
-                    <h4>Frontend Developer</h4>
-                    <p>Bangun tampilan website yang keren</p>
+                <div class="card p-4">
+                    <img src="{{ asset('devacademy/member/img/icon/fe-dev.png') }}" alt="" class="mb-3" style="width: 60px; height: 60px; object-fit: contain;">
+                    <h4 class="mb-2">Frontend Developer</h4>
+                    <p class="mb-0">Bangun tampilan website yang keren</p>
                 </div>
-                <div class="card p-3">
-                    <img src="{{ asset('devacademy/member/img/icon/be-dev.png') }}" alt="">
-                    <h4>Backend Developer</h4>
-                    <p>Kelola server dan database dengan mudah</p>
+                <div class="card p-4">
+                    <img src="{{ asset('devacademy/member/img/icon/be-dev.png') }}" alt="" class="mb-3" style="width: 60px; height: 60px; object-fit: contain;">
+                    <h4 class="mb-2">Backend Developer</h4>
+                    <p class="mb-0">Kelola server dan database dengan mudah</p>
                 </div>
-                <div class="card p-3">
-                    <img src="{{ asset('devacademy/member/img/icon/wordpress-dev.png') }}" alt="">
-                    <h4>WordPress Developer</h4>
-                    <p>Buat website profesional pakai WordPress</p>
+                <div class="card p-4">
+                    <img src="{{ asset('devacademy/member/img/icon/wordpress-dev.png') }}" alt="" class="mb-3" style="width: 60px; height: 60px; object-fit: contain;">
+                    <h4 class="mb-2">WordPress Developer</h4>
+                    <p class="mb-0">Buat website profesional pakai WordPress</p>
                 </div>
             </div>
         </div>

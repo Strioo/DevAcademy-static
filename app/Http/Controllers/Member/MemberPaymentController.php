@@ -3,209 +3,133 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
-
-use App\Models\Transaction;
-use App\Models\Course;
-use App\Models\MyListCourse;
-use App\Models\DiskonKelas;
-use App\Models\detailTransactions;
-use App\Models\Discount;
-
+/**
+ * MemberPaymentController - Controller untuk halaman pembayaran member
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Payment processing (Midtrans) disabled in dummy mode
+ *       Store/checkout will simulate success for demo purposes
+ */
 class MemberPaymentController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display payment page
+     */
     public function index(Request $request)
     {
         $courseId = $request->query('course_id');
 
-        $discount = Discount::all();
+        // DUMMY DATA: Get all discounts
+        $discount = $this->dummyService->getAllDiscounts();
 
-        $course = Course::find($courseId);
+        // DUMMY DATA: Get course by ID
+        $course = $this->dummyService->getCourseById((int) $courseId);
+
         return view('member.payment', [
             'course' => $course,
             'discount' => $discount,
         ]);
     }
 
+    /**
+     * Store payment (DUMMY MODE - simulates success)
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'course_id' => 'nullable|exists:tbl_courses,id',
+            'course_id' => 'nullable|integer',
             'price' => 'required|numeric',
             'diskon' => 'nullable|numeric',
             'termsCheck' => 'required|accepted',
         ]);
 
-        $course = Course::find($request->input('course_id'));
+        // DUMMY DATA: Get course
+        $course = $this->dummyService->getCourseById((int) $request->input('course_id'));
+        
+        if (!$course) {
+            Alert::error('error', 'Kursus tidak ditemukan');
+            return redirect()->back();
+        }
+
         $user = Auth::user();
         $transaction_code = 'DEVACADEMY-' . strtoupper(Str::random(10));
 
+        // Calculate price
         $price = 0;
-        $code_discount = '';
-
         if ($request->price > 0) {
-            $price = $course->price + 5000;
+            $price = $course->price + 5000; // Admin fee
         }
 
+        // Apply discount if provided
         $diskon = 0;
+        $code_discount = '';
+        if ($request->input('diskon')) {
+            $discountData = $this->dummyService->getDiscountByRate((int) $request->input('diskon'));
+            if ($discountData) {
+                $diskon = ($request->input('diskon') / 100) * $price;
+                $price -= $diskon;
+                $code_discount = $request->input('diskon');
 
-        if ($request->input('diskon') && $validDiskon = Discount::where('rate_discount', $request->input('diskon'))->first()) {
-            $diskon = ($request->input('diskon') / 100) * $price;
-            $price -= $diskon;
-
-            $code_discount = $request->input('diskon');
-
-            if ($price < 0) {
-                Alert::error('error', 'Pembayaran Tidak Valid');
-                return redirect()->back()->withErrors(['price' => 'Harga Tidak Valid']);
+                if ($price < 0) {
+                    Alert::error('error', 'Pembayaran Tidak Valid');
+                    return redirect()->back()->withErrors(['price' => 'Harga Tidak Valid']);
+                }
             }
         }
 
-        if ($price == 0) $status = 'success';
-        else $status = 'pending';
-
-        $transaction_code = 'DEVACADEMY-' . strtoupper(Str::random(10));
-
-        // Cek apakah sudah ada transaksi pending
-        $checkTransaction = Transaction::where('course_id', $course->id)
-            ->where('user_id', $user->id)
-            ->where('status', 'pending')
-            ->first();
-
-        $dataTransaction = $course ? [
-            'user_id' => $user->id,
-            'course_id' => $course->id,
-            'transaction_code' => $transaction_code,
-            'code_discount' => $code_discount,
-            'price' => $price,
-            'status' => $status,
-            'snap_token' => '',
-        ] : [];
-
-        $myListCourse = $course ? [
-            'user_id' => $user->id,
-            'course_id' => $course->id,
-        ] : [];
-
-        if (!isset($checkTransaction)) {
-            if ($status == 'success') {
-
-                Transaction::create($dataTransaction);
-                MyListCourse::create($myListCourse);
-
-                Alert::success('success', 'Kelas Berhasil Dibeli');
-                return redirect()->route('member.course.join', $course->slug);
-            } else {
-                // Lakukan pemrosesan Midtrans jika belum sukses
-                \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-                \Midtrans\Config::$isProduction = env('MIDTRANS_PRODUCTION');
-                \Midtrans\Config::$isSanitized = true;
-                \Midtrans\Config::$is3ds = true;
-
-                $params = [
-                    'transaction_details' => [
-                        'order_id' => $transaction_code,
-                        'gross_amount' => intval($price),
-                    ],
-                    'customer_details' => [
-                        'name' => $user->name,
-                        'email' => $user->email,
-                    ],
-                    'enabled_payments' => [
-                        'bank_transfer',
-                        'va_bank',
-                        'qris',
-                        'gopay',
-                        'shopeepay'
-                    ],
-                    'callbacks' => [
-                        'finish' => route('member.transaction'),
-                        'error' => route('member.transaction'),
-                    ],
-                ];
-
-
-                $createdTransactionMidtrans = \Midtrans\Snap::createTransaction($params);
-                $midtransRedirectUrl = $createdTransactionMidtrans->redirect_url;
-
-                $dataTransaction['snap_token'] = $createdTransactionMidtrans->token;
-                Transaction::create($dataTransaction);
-                return redirect($midtransRedirectUrl);
-            }
+        // DUMMY MODE: Simulate success for demo
+        // In real implementation, this would process via Midtrans
+        
+        if ($price == 0) {
+            // Free course - immediate success
+            Alert::success('success', 'Kelas Berhasil Dibeli (Demo Mode - Gratis)');
+            return redirect()->route('member.course.join', $course->slug);
         } else {
-            if ($status == 'success') {
-
-                Transaction::create($dataTransaction);
-                MyListCourse::create($myListCourse);
-
-                Alert::success('success', 'Kelas Berhasil Dibeli');
-                return redirect()->route('member.course.join', $course->slug);
-            } else {
-                $url = env('MIDTRANS_PRODUCTION')
-                    ? "https://app.midtrans.com/snap/v4/redirection/{$checkTransaction->snap_token}"
-                    : "https://app.sandbox.midtrans.com/snap/v4/redirection/{$checkTransaction->snap_token}";
-
-                return redirect($url);
-            }
-            // Redirect ke transaksi pending sebelumnya jika ada
+            // Paid course - simulate success in demo mode
+            Alert::success('success', 'Pembayaran Berhasil! (Demo Mode - Midtrans Disabled)');
+            return redirect()->route('member.course.join', $course->slug);
         }
     }
 
+    /**
+     * Midtrans webhook checkout (DUMMY MODE - disabled)
+     */
     public function checkout()
     {
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        \Midtrans\Config::$isProduction = env('MIDTRANS_PRODUCTION');
-        $notif = new \Midtrans\Notification();
-
-        $transactionStatus = $notif->transaction_status;
-        $type = $notif->payment_type;
-        $transaction_code = $notif->order_id;
-        $fraudStatus = $notif->fraud_status;
-
-        if ($transactionStatus == 'capture') {
-            if ($fraudStatus == 'accept') {
-                $status = 'success';
-            }
-        } elseif ($transactionStatus == 'settlement') {
-            $status = 'success';
-        } elseif ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
-            $status = 'failed';
-        } elseif ($transactionStatus == 'pending') {
-            $status = 'pending';
-        }
-
-        $transaction = Transaction::where('transaction_code', $transaction_code)->first();
-        $transaction->update(['status' => $status]);
-
-        if ($status == 'success') {
-            try {
-
-                if ($transaction->course_id != null) {
-                    MyListCourse::create([
-                        'user_id' => $transaction->user_id,
-                        'course_id' => $transaction->course_id, // Pastikan ini valid
-                    ]);
-                }
-            } catch (\Exception $e) {
-                Log::error('Failed to create MyListCourse: ' . $e->getMessage());
-            }
-        }
+        // DUMMY MODE: Midtrans webhook is disabled
+        // This would normally handle payment confirmation from Midtrans
+        
+        return response()->json([
+            'status' => 'demo_mode',
+            'message' => 'Midtrans webhook disabled in dummy mode'
+        ]);
     }
 
-    public function viewTransaction(Request $requests, $transaction_code)
+    /**
+     * View transaction detail
+     */
+    public function viewTransaction(Request $request, $transaction_code)
     {
-        $transaction = Transaction::where('transaction_code', $transaction_code)->first();
-
-        $url = "https://app.sandbox.midtrans.com/snap/v4/redirection/$transaction->snap_token";
-        if (env('MIDTRANS_PRODUCTION') === true) {
-            $url = "https://app.midtrans.com/snap/v4/redirection/$transaction->snap_token";
+        // DUMMY DATA: Get transaction by code
+        $transaction = $this->dummyService->getTransactionByCode($transaction_code);
+        
+        if (!$transaction) {
+            return redirect()->route('pages.error');
         }
 
-        return redirect()->to($url);
+        return view('member.dashboard.transaction.show-payment', compact('transaction'));
     }
 }

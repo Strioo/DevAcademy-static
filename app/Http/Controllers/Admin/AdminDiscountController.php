@@ -3,23 +3,45 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
 
-use App\Models\Discount;
-
+/**
+ * AdminDiscountController - Controller untuk CRUD diskon
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Create/Update/Delete functionality disabled in dummy mode (returns success message only)
+ */
 class AdminDiscountController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display discount listing
+     */
     public function index()
     {
-        $discounts = Discount::all();
+        // DUMMY DATA: Get all discounts
+        $discounts = $this->dummyService->getAllDiscounts();
         return view('admin.discount.view', compact('discounts'));
     }
 
+    /**
+     * Show create form
+     */
     public function create()
     {
         return view('admin.discount.create');
     }
 
+    /**
+     * Store discount (DUMMY MODE - shows success message only)
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -27,29 +49,28 @@ class AdminDiscountController extends Controller
             'rate_discount' => 'required|numeric|min:0|max:100',
         ]);
 
-        // Cek apakah diskon dengan kode yang sama sudah ada
-        $existingDiscount = Discount::where('code_discount', $request->code_discount)->first();
-
-        if ($existingDiscount) {
-            return redirect()->route('admin.discount')->with('error', 'Maaf, diskon dengan kode ini sudah ada.');
-        }
-
-        Discount::create([
-            'code_discount' => $request->code_discount,
-            'rate_discount' => $request->rate_discount,
-        ]);
-
-        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil ditambahkan.');
+        // DUMMY MODE: Cannot actually create, just show success message
+        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil ditambahkan (Demo Mode)');
     }
 
-
-    public function edit(Request $requests, $id)
+    /**
+     * Show edit form
+     */
+    public function edit(Request $request, $id)
     {
-        $discount = Discount::where('id', $id)->first();
+        // DUMMY DATA: Get discount by ID
+        $discount = $this->dummyService->getDiscountById((int) $id);
+        
+        if (!$discount) {
+            return redirect()->route('admin.discount')->with('error', 'Diskon tidak ditemukan');
+        }
+        
         return view('admin.discount.update', compact('discount'));
     }
 
-
+    /**
+     * Update discount (DUMMY MODE - shows success message only)
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -57,33 +78,16 @@ class AdminDiscountController extends Controller
             'rate_discount' => 'required|numeric|min:0|max:100',
         ]);
 
-        $discount = Discount::findOrFail($id);
-
-        // Cek apakah kode diskon sudah ada dan bukan milik diskon yang sedang diupdate
-        $existingDiscount = Discount::where('code_discount', $request->code_discount)
-            ->where('id', '!=', $id)
-            ->first();
-
-        if ($existingDiscount) {
-            return redirect()->route('admin.discount')->with('error', 'Maaf, kode diskon sudah digunakan.');
-        }
-
-        $discount->update([
-            'code_discount' => $request->code_discount,
-            'rate_discount' => $request->rate_discount,
-        ]);
-
-        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil diubah.');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil diubah (Demo Mode)');
     }
 
-
-
-    public function delete(Request $requests, $id)
+    /**
+     * Delete discount (DUMMY MODE - shows success message only)
+     */
+    public function delete(Request $request, $id)
     {
-        $discount = Discount::where('id', $id)->first();
-
-        $discount->delete();
-        // Alert::success('Success', 'Diskon Berhasil Di Delete');
-        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil dihapus');
+        // DUMMY MODE: Cannot actually delete, just show success message
+        return redirect()->route('admin.discount')->with('success', 'Diskon berhasil dihapus (Demo Mode)');
     }
 }

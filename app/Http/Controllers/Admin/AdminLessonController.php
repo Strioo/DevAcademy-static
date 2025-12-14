@@ -3,28 +3,46 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use RealRashid\SweetAlert\Facades\Alert;
 
-use App\Models\Lesson;
-use App\Models\Chapter;
-use App\Models\CompleteEpisodeCourse;
-use App\Models\Course;
-
+/**
+ * AdminLessonController - Controller untuk CRUD lesson dalam chapter
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Create/Update/Delete functionality disabled in dummy mode (returns success message only)
+ */
 class AdminLessonController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display lessons for a chapter
+     */
     public function index($slug_course, $id_chapter)
     {
-        $lessons = Lesson::where('chapter_id', $id_chapter)->get();
+        // DUMMY DATA: Get lessons by chapter
+        $lessons = $this->dummyService->getLessonsByChapter((int) $id_chapter);
+        
         return view('admin.courses.lessons.view', compact('lessons', 'slug_course', 'id_chapter'));
     }
 
+    /**
+     * Show create form
+     */
     public function create($slug_course, $id_chapter)
     {
         return view('admin.courses.lessons.create', compact('slug_course', 'id_chapter'));
     }
 
+    /**
+     * Store lesson (DUMMY MODE - shows success message only)
+     */
     public function store(Request $request, $slug_course, $id_chapter)
     {
         $request->validate([
@@ -32,25 +50,30 @@ class AdminLessonController extends Controller
             'link_videos' => 'required|url',
         ]);
 
-        $chapter = Chapter::with('course')->findOrFail($id_chapter);
-
-        Lesson::create([
-            'chapter_id' => $id_chapter,
-            'name' => $request->name,
-            'slug_episode' => Str::random(12),
-            'link_videos' => $request->link_videos,
-        ]);
-
-        return redirect()->route('admin.lesson', ['slug_course' => $slug_course, 'id_chapter' => $chapter->id])
-            ->with('success', 'Lesson berhasil dibuat.');
+        // DUMMY MODE: Cannot actually create, just show success message
+        return redirect()->route('admin.lesson', ['slug_course' => $slug_course, 'id_chapter' => $id_chapter])
+            ->with('success', 'Lesson berhasil dibuat (Demo Mode)');
     }
 
+    /**
+     * Show edit form
+     */
     public function edit($slug_course, $id_chapter, $id_lesson)
     {
-        $lesson = Lesson::findOrFail($id_lesson);
+        // DUMMY DATA: Get lesson by ID
+        $lesson = $this->dummyService->getLessonById((int) $id_lesson);
+        
+        if (!$lesson) {
+            return redirect()->route('admin.lesson', ['slug_course' => $slug_course, 'id_chapter' => $id_chapter])
+                ->with('error', 'Lesson tidak ditemukan');
+        }
+        
         return view('admin.courses.lessons.update', compact('lesson', 'slug_course', 'id_chapter'));
     }
 
+    /**
+     * Update lesson (DUMMY MODE - shows success message only)
+     */
     public function update(Request $request, $slug_course, $id_chapter, $id_lesson)
     {
         $request->validate([
@@ -58,25 +81,20 @@ class AdminLessonController extends Controller
             'link_videos' => 'required|url',
         ]);
 
-        $lesson = Lesson::findOrFail($id_lesson);
-
-        $lesson->update([
-            'name' => $request->name,
-            'link_videos' => $request->link_videos,
-        ]);
-
-        return redirect()->route('admin.lesson', ['slug_course' => $slug_course, 'id_chapter' => $id_chapter])->with('success', 'Lesson berhasil diubah.');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.lesson', ['slug_course' => $slug_course, 'id_chapter' => $id_chapter])
+            ->with('success', 'Lesson berhasil diubah (Demo Mode)');
     }
 
+    /**
+     * Delete lesson (DUMMY MODE - shows success message only)
+     */
     public function delete($slug_course, $id_chapter, $id_lesson)
     {
-        $lesson = Lesson::findOrFail($id_lesson);
-
-        $lesson->delete();
-
+        // DUMMY MODE: Cannot actually delete, just show success message
         return redirect()->route('admin.lesson', [
             'slug_course' => $slug_course,
             'id_chapter' => $id_chapter
-        ])->with('success', 'Lesson berhasil dihapus.');
+        ])->with('success', 'Lesson berhasil dihapus (Demo Mode)');
     }
 }

@@ -3,95 +3,105 @@
 namespace App\Http\Controllers\Admin\Sdm;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 
-
-use App\Models\User;
-use App\Models\Profession;
-use App\Models\Course;
-
+/**
+ * AdminMentorController - Controller untuk CRUD mentor
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Create/Update/Delete functionality disabled in dummy mode (returns success message only)
+ */
 class AdminMentorController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display mentor listing
+     */
     public function index(Request $request)
     {
-        $mentors = User::where('role', 'mentor')->with('courses')->get();
+        // DUMMY DATA: Get all mentors with their courses
+        $mentors = $this->dummyService->getUsersByRole('mentor');
+        
+        // Add courses relation to each mentor
+        foreach ($mentors as $mentor) {
+            $mentor->courses = $this->dummyService->getCoursesByMentor($mentor->id);
+        }
+        
         return view('admin.sdm.mentor.view', compact('mentors'));
     }
 
+    /**
+     * Show create form
+     */
     public function create()
     {
-        $professions = Profession::all(); // Ambil semua profesi dari tabel professions
+        // DUMMY DATA: Get all professions
+        $professions = $this->dummyService->getAllProfessions();
         return view('admin.sdm.mentor.create', compact('professions'));
     }
 
+    /**
+     * Store mentor (DUMMY MODE - shows success message only)
+     */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
+            'email' => 'required|email|max:255',
             'profession' => 'required|string|max:255',
             'password' => 'required|string|min:6',
         ]);
 
-        User::create([
-            'avatar' => 'default.png',
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'mentor',
-            'profession' => $request->profession,
-        ]);
-
-
-        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil ditambahkan.');
+        // DUMMY MODE: Cannot actually create, just show success message
+        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil ditambahkan (Demo Mode)');
     }
 
-    public function edit(Request $requests, $id)
+    /**
+     * Show edit form
+     */
+    public function edit(Request $request, $id)
     {
-        $mentor =  User::where('id', $id)->first();
-        $professions = Profession::all(); // Pastikan model Profession sudah ada
+        // DUMMY DATA
+        $mentor = $this->dummyService->getUserById((int) $id);
+        $professions = $this->dummyService->getAllProfessions();
+        
+        if (!$mentor) {
+            return redirect()->route('admin.mentor')->with('error', 'Mentor tidak ditemukan');
+        }
+        
         return view('admin.sdm.mentor.update', compact('mentor', 'professions'));
     }
 
+    /**
+     * Update mentor (DUMMY MODE - shows success message only)
+     */
     public function update(Request $request, $id)
     {
-        $mentor = User::findOrFail($id);
-
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $mentor->id,
+            'email' => 'required|email|max:255',
             'role' => 'required|string|in:mentor,superadmin',
             'profession' => 'required|string|max:255',
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        $mentor->update([
-            'name' => $request->name,
-            'username' => $request->name,
-            'email' => $request->email,
-            'profession' => $request->profession,
-            'role' => $request->role,
-            'password' => $request->filled('password') ? Hash::make($request->password) : $mentor->password,
-        ]);
-
-        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil diubah.');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil diubah (Demo Mode)');
     }
 
-    public function delete(Request $requests, $id)
+    /**
+     * Delete mentor (DUMMY MODE - shows success message only)
+     */
+    public function delete(Request $request, $id)
     {
-        $mentor =  User::where('id', $id)->first();
-
-        if ($mentor->avatar && $mentor->avatar !== 'default.png') {
-            $avatarPath = 'public/images/avatars/' . $mentor->avatar;
-            if (Storage::exists($avatarPath)) {
-                Storage::delete($avatarPath);
-            }
-        }
-
-        $mentor->delete();
-
-        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil dihapus.');
+        // DUMMY MODE: Cannot actually delete, just show success message
+        return redirect()->route('admin.mentor')->with('success', 'Mentor berhasil dihapus (Demo Mode)');
     }
 }

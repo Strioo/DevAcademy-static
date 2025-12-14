@@ -3,24 +3,45 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Tools;
 
+/**
+ * AdminToolsController - Controller untuk CRUD tools/teknologi
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Create/Update/Delete functionality disabled in dummy mode (returns success message only)
+ */
 class AdminToolsController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display tools listing
+     */
     public function index(Request $request)
     {
-        $tools = Tools::all();
+        // DUMMY DATA: Get all tools
+        $tools = $this->dummyService->getAllTools();
         return view('admin.tools.view', compact('tools'));
     }
 
+    /**
+     * Show create form
+     */
     public function create()
     {
         return view('admin.tools.create');
     }
 
+    /**
+     * Store tool (DUMMY MODE - shows success message only)
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -29,32 +50,28 @@ class AdminToolsController extends Controller
             'link_tools' => 'required|url',
         ]);
 
-        // Cek apakah nama tools sudah ada
-        $existingTool = Tools::where('name_tools', $request->name_tools)->first();
-
-        if ($existingTool) {
-            return redirect()->route('admin.tools')->with('error', 'Maaf nama tools sudah ada.');
-        }
-
-        $images = $request->file('logo_tools');
-        $imagesGetNewName = Str::random(10) . '.' . $images->getClientOriginalExtension();
-        $images->storeAs('public/images/logoTools', $imagesGetNewName);
-
-        Tools::create([
-            'name_tools' => $request->name_tools,
-            'logo_tools' => $imagesGetNewName,
-            'link_tools' => $request->link_tools,
-        ]);
-
-        return redirect()->route('admin.tools')->with('success', 'Tools Berhasil Di Buat');
+        // DUMMY MODE: Cannot actually create, just show success message
+        return redirect()->route('admin.tools')->with('success', 'Tools Berhasil Di Buat (Demo Mode)');
     }
 
+    /**
+     * Show edit form
+     */
     public function edit($id)
     {
-        $tools = Tools::findOrFail($id);
+        // DUMMY DATA: Get tool by ID
+        $tools = $this->dummyService->getToolById((int) $id);
+        
+        if (!$tools) {
+            return redirect()->route('admin.tools')->with('error', 'Tools tidak ditemukan');
+        }
+        
         return view('admin.tools.update', compact('tools'));
     }
 
+    /**
+     * Update tool (DUMMY MODE - shows success message only)
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -63,48 +80,16 @@ class AdminToolsController extends Controller
             'logo_tools' => 'sometimes|image|mimes:jpeg,png,jpg',
         ]);
 
-        $tools = Tools::findOrFail($id);
-
-        // Cek apakah nama tools sudah ada, kecuali untuk dirinya sendiri
-        $existingTool = Tools::where('name_tools', $request->name_tools)
-            ->where('id', '!=', $id)
-            ->first();
-
-        if ($existingTool) {
-            return redirect()->route('admin.tools')->with('error', 'Maaf, nama tools sudah digunakan.');
-        }
-
-        // Jika ada file logo yang diupload
-        if ($request->hasFile('logo_tools')) {
-            $images = $request->file('logo_tools');
-            $imagesGetNewName = Str::random(10) . '.' . $images->getClientOriginalExtension();
-            $images->storeAs('public/images/logoTools', $imagesGetNewName);
-
-            // Hapus logo lama jika ada
-            if ($tools->logo_tools) {
-                Storage::disk('public')->delete('images/logoTools/' . $tools->logo_tools);
-            }
-
-            $tools->logo_tools = $imagesGetNewName;
-        }
-
-        // Update data tools
-        $tools->update([
-            'name_tools' => $request->name_tools,
-            'logo_tools' => $tools->logo_tools,
-            'link_tools' => $request->link_tools,
-        ]);
-
-        return redirect()->route('admin.tools')->with('success', 'Tools Berhasil Diubah.');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.tools')->with('success', 'Tools Berhasil Diubah (Demo Mode)');
     }
 
+    /**
+     * Delete tool (DUMMY MODE - shows success message only)
+     */
     public function delete($id)
     {
-        $tools = Tools::findOrFail($id);
-        Storage::disk('public')->delete('images/logoTools/' . $tools->logo_tools);
-        $tools->delete();
-
-        // Alert::success('Success', 'Tools Berhasil Di Hapus');
-        return redirect()->route('admin.tools')->with('success', 'Tools berhasil dihapus');
+        // DUMMY MODE: Cannot actually delete, just show success message
+        return redirect()->route('admin.tools')->with('success', 'Tools berhasil dihapus (Demo Mode)');
     }
 }

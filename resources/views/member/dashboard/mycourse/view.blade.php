@@ -34,11 +34,11 @@
                                 <a href="{{ route('member.course.join', $course->slug) }}"
                                     class="col-md-4 d-flex justify-content-center pb-3 my-2 text-decoration-none">
                                     <div class="card">
-                                        @if ($course->cover != null)
+                                        @if ($course->cover && $course->cover != '' && file_exists(public_path('storage/images/covers/' . $course->cover)))
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
                                                 class="card-img-top" alt="...">
                                         @else
-                                            <img src="{{ asset('devacademy/member/img/NemolabBG.jpg') }}"
+                                            <img src="{{ asset('devacademy/member/img/courseBG.png') }}"
                                                 class="card-img-top" alt="...">
                                         @endif
                                         <div class="card-body">

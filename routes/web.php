@@ -51,29 +51,29 @@ Route::prefix('member')->group(function () {
 
     // member course
     Route::prefix('course')->group(function () {
-        Route::get('/', [MemberCourseController::class, 'index'])->name('member.course')->middleware('students', 'verified');
-        Route::get('join/{slug}', [MemberCourseController::class, 'join'])->name('member.course.join')->middleware(['students', 'verified']);
-        Route::get('{slug}/play/episode/{episode}', [MemberCourseController::class, 'play'])->name('member.course.play')->middleware(['students', 'verified']);
-        Route::get('detail/{slug}', [MemberCourseController::class, 'detail'])->name('member.course.detail')->middleware(['students', 'verified']);
-        Route::get('detail/sertifikat/{slug}', [MemberCourseController::class, 'generateSertifikat'])->name('member.sertifikat')->middleware(['students', 'verified']);
+        Route::get('/', [MemberCourseController::class, 'index'])->name('member.course')->middleware('students');
+        Route::get('join/{slug}', [MemberCourseController::class, 'join'])->name('member.course.join')->middleware('students');
+        Route::get('{slug}/play/episode/{episode}', [MemberCourseController::class, 'play'])->name('member.course.play')->middleware('students');
+        Route::get('detail/{slug}', [MemberCourseController::class, 'detail'])->name('member.course.detail')->middleware('students');
+        Route::get('detail/sertifikat/{slug}', [MemberCourseController::class, 'generateSertifikat'])->name('member.sertifikat')->middleware('students');
     });
 
-    Route::prefix('review')->middleware(['students', 'verified'])->group(function () {
+    Route::prefix('review')->middleware('students')->group(function () {
         Route::get('{slug}', [MemberReviewController::class, 'index'])->name('member.review');
         Route::post('store', [MemberReviewController::class, 'store'])->name('member.review.store');
         Route::get('ebook/{slug}', [MemberReviewController::class, 'ebookFormReview'])->name('member.review.ebook');
         Route::post('ebook/store', [MemberReviewController::class, 'storeReviewEbook'])->name('member.review.ebook.store');
     });
 
-    Route::prefix('payment')->middleware(['students', 'verified'])->group(function () {
+    Route::prefix('payment')->middleware('students')->group(function () {
         Route::get('payment/', [MemberPaymentController::class, 'index'])->name('member.payment');
         Route::post('payment/store', [MemberPaymentController::class, 'store'])->name('member.transaction.store');
     });
 
     // dashboard mycourse
-    Route::get('/', [MemberMyCourseController::class, 'index'])->name('member.dashboard')->middleware(['students', 'verified']);
+    Route::get('/', [MemberMyCourseController::class, 'index'])->name('member.dashboard')->middleware('students');
     // dashboard setting member
-    Route::prefix('setting')->middleware(['students', 'verified'])->group(function () {
+    Route::prefix('setting')->middleware('students')->group(function () {
         Route::view('/', 'member.dashboard.setting.view')->name('member.setting');
 
         Route::view('profile', 'member.dashboard.setting.edit-profile')->name('member.setting.profile');

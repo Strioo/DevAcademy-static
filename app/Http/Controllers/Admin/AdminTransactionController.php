@@ -3,44 +3,58 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 
-use App\Models\Transaction;
-use App\Models\Course;
-use App\Models\MyListCourse;
-
+/**
+ * AdminTransactionController - Controller untuk manajemen transaksi
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ * Note: Accept/Cancel functionality disabled in dummy mode (returns success message only)
+ */
 class AdminTransactionController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display transaction listing
+     */
     public function index(Request $request)
     {
-        $userId = Auth::id();
-        $transactions = Transaction::orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END, created_at DESC")->get();
-        // Mengembalikan view dengan transaksi
+        // DUMMY DATA: Get all transactions (sorted with pending first)
+        $transactions = $this->dummyService->getAllTransactions();
+        
+        // Sort: pending first, then by created_at desc
+        $transactions = $transactions->sortBy(function($item) {
+            return [
+                $item->status === 'pending' ? 0 : 1,
+                -strtotime($item->created_at ?? '2024-01-01')
+            ];
+        })->values();
+        
         return view('admin.transaction.view', compact('transactions'));
     }
 
+    /**
+     * Accept transaction (DUMMY MODE - shows success message only)
+     */
     public function accept($id)
     {
-        $transaction = Transaction::findOrFail($id);
-        $transaction->status = 'success';
-        $transaction->save();
-        MyListCourse::create([
-            'user_id' => $transaction->user_id,
-            'course_id' => $transaction->course_id,
-        ]);
-
-        return redirect()->route('admin.transaction')->with('success', 'Transaksi Berhasil Di Selesaikan');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.transaction')->with('success', 'Transaksi Berhasil Di Selesaikan (Demo Mode)');
     }
 
+    /**
+     * Cancel transaction (DUMMY MODE - shows success message only)
+     */
     public function cancel($id)
     {
-        $transaction = Transaction::findOrFail($id);
-        $transaction->status = 'failed';
-        $transaction->save();
-
-
-        return redirect()->route('admin.transaction')->with('success', 'Transaksi Berhasil Di Batalkan');
+        // DUMMY MODE: Cannot actually update, just show success message
+        return redirect()->route('admin.transaction')->with('success', 'Transaksi Berhasil Di Batalkan (Demo Mode)');
     }
 }

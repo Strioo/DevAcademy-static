@@ -3,56 +3,62 @@
 namespace App\Http\Controllers\Member\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 
-use App\Models\Course;
-use App\Models\Ebook;
-use App\Models\Transaction;
-use App\Models\Submission;
-use App\Models\MyListCourse;
-use App\Models\Chapter;
-use App\Models\CompleteEpisodeCourse;
-
+/**
+ * MemberMyCourseController - Controller untuk halaman kelas saya (dashboard member)
+ * 
+ * REFACTORED: Menggunakan DummyDataService sebagai pengganti Eloquent
+ */
 class MemberMyCourseController extends Controller
 {
-    public function index(Request $request) {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
+    /**
+     * Display user's purchased courses with progress
+     */
+    public function index(Request $request) 
+    {
         $filter = $request->input('filter');
-        $lists = MyListCourse::where('user_id', Auth::user()->id)->get();
-        $courseIds = $lists->pluck('course_id');
+        $userId = Auth::user()->id;
 
-        $coursesQuery = Course::whereIn('id', $courseIds)->orderBy('id', 'DESC');
+        // DUMMY DATA: Get user's course list
+        $courses = $this->dummyService->getUserCourseList($userId);
 
+        // Apply filter if needed (currently only 'kursus' is handled)
         switch ($filter) {
             case 'kursus':
-                $courses = $coursesQuery->get();
-                break;
             default:
-                $courses = $coursesQuery->get();
+                // No additional filtering needed
                 break;
         }
-        $coursesProgress = $courses->map(function ($course) {
-            $totalLessons = Chapter::where('course_id', $course->id)
-                ->withCount('lessons')
-                ->get()
-                ->sum('lessons_count');
-            $lessonProgress = CompleteEpisodeCourse::where('user_id', Auth::user()->id)
-                ->where('course_id', $course->id)
-                ->count();
-            $course->total_lesson = $totalLessons;
-            $course->lesson_progress = $lessonProgress;
-            $course->status = ($lessonProgress == $totalLessons) ? 'Selesai' : 'Belum Selesai';
+
+        // Add progress information to each course
+        $coursesProgress = $courses->map(function ($course) use ($userId) {
+            // DUMMY DATA: Get progress for this course
+            $progress = $this->dummyService->getUserCourseProgress($userId, $course->id);
+            
+            $course->total_lesson = $progress['total'];
+            $course->lesson_progress = $progress['completed'];
+            $course->status = $progress['is_completed'] ? 'Selesai' : 'Belum Selesai';
+            
+            // Add transactions relation (needed for view check)
+            $transaction = $this->dummyService->getTransactionByUserAndCourse($userId, $course->id);
+            $course->transactions = $transaction ? collect([$transaction]) : collect([]);
 
             return $course;
         });
 
-        $total_course = Transaction::where('user_id', Auth::user()->id)
-                                    ->where('status', 'success')
-                                    ->count();
+        // DUMMY DATA: Count successful transactions
+        $total_course = $this->dummyService->countSuccessfulTransactions($userId);
 
         return view('member.dashboard.mycourse.view', compact('coursesProgress', 'total_course'));
     }
-
-
 }

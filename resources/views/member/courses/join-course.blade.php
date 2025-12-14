@@ -11,11 +11,11 @@
         <div class="container px-0">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card card-tittle">
-                        <h1 data-aos="fade-right" style="word-wrap: break-word; white-space: normal;">{{ $courses->name }}
+                    <div class="card card-tittle p-4">
+                        <h1 data-aos="fade-right" class="mb-4" style="word-wrap: break-word; white-space: normal;">{{ $courses->name }}
                         </h1>
-                        <h5 class="mt-3">Deskripsi Kursus</h5>
-                        <p style="max-width: 90%;">{{ $courses->sort_description }}</p>
+                        <h5 class="mt-3 mb-3">Deskripsi Kursus</h5>
+                        <p class="mb-4" style="max-width: 90%;">{{ $courses->sort_description }}</p>
                         <div class="keuntungan mt-3">
                             <h5>Keuntungan belajar kelas ini</h5>
                             <ul class="check-active-group mt-3 list-unstyled d-flex gap-4">
@@ -46,7 +46,7 @@
                             @if ($transaction->status == 'pending')
                                 <a href="#" class="buy btn btn-primary py-2 w-100">Dalam Proses Pembayaran</a>
                             @elseif ($transaction->status == 'success')
-                                @if ($lesson->count() > 0)
+                                @if ($lesson)
                                     <a href="{{ route('member.course.play', ['slug' => $courses->slug, 'episode' => $lesson->slug_episode]) }}"
                                         class="buy btn btn-primary py-2 w-100">Mulai Belajar</a>
                                 @else
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card card-preview p-0">
-                        @if ($courses->cover != null)
+                        @if ($courses->cover && $courses->cover != '' && file_exists(public_path('storage/images/covers/' . $courses->cover)))
                             <img src="{{ asset('storage/images/covers/' . $courses->cover) }}" alt="">
                         @else
                             <img src="{{ asset('devacademy/member/img/courseBG.png') }}" alt="">
@@ -72,14 +72,14 @@
                     </div>
                 </div>
                 <div class="col-md-8 mt-4">
-                    <div class="card card-materi">
-                        <h5 class="text-black">Materi</h5>
+                    <div class="card card-materi p-4">
+                        <h5 class="text-black mb-3">Materi</h5>
                         {!! $courses->long_description !!}
                     </div>
                 </div>
                 <div class="col-md-4 mt-4">
-                    <div class="card card-detail">
-                        <h5 class="text-black">Detail</h5>
+                    <div class="card card-detail p-4">
+                        <h5 class="text-black mb-3">Detail</h5>
                         <div class="d-flex">
                             <div class="head">
                                 <ul class="p-0 m-0 d-flex flex-column gap-3">
@@ -99,16 +99,33 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card .card-tools mt-2 d-flex ">
-                        <h5>Tools</h5>
+                    <div class="card card-tools mt-2 d-flex p-4">
+                        <h5 class="mb-3">Tools</h5>
                         <div class="container-tools d-flex gap-3">
-                            <div class="tools d-flex mt-3  align-items-center justify-content-center">
+                            <div class="tools d-flex mt-3 flex-wrap gap-3 align-items-center justify-content-center">
                                 @foreach ($coursetools->tools as $tool)
-                                    <div
-                                        class="card-tool py-3 px-3 d-flex flex-column align-items-center justify-content-center">
-                                        <img src="{{ asset('storage/images/logoTools/' . $tool->logo_tools) }}"
-                                            alt="" class="" width="50" height="50">
-                                        <p class="mb-0 mt-2 align-middle text-center">{{ $tool->name_tools }}</p>
+                                    <div class="card-tool py-4 px-4 d-flex flex-column align-items-center justify-content-center">
+                                        @php
+                                            $iconMap = [
+                                                'Figma' => 'Figma.svg',
+                                                'Adobe XD' => 'Adobe_XD.png',
+                                                'Flutter' => 'flutter.png',
+                                                'Laravel' => 'Laravel.png',
+                                                'React' => 'react.png',
+                                                'Node.js' => 'nodejs.svg',
+                                                'Nodejs' => 'nodejs.svg',
+                                                'GitHub' => 'github.svg',
+                                                'Postman' => 'postman.png',
+                                                'Visual Studio Code' => 'visual-studio-code.png',
+                                                'VS Code' => 'visual-studio-code.png',
+                                            ];
+                                            $iconFile = $iconMap[$tool->name_tools] ?? null;
+                                            $iconPath = $iconFile ? 'devacademy/member/img/icon/tech-stack/' . $iconFile : 'storage/images/logoTools/' . $tool->logo_tools;
+                                        @endphp
+                                        <img src="{{ asset($iconPath) }}"
+                                            alt="{{ $tool->name_tools }}" class="" width="50" height="50"
+                                            style="object-fit: contain;">
+                                        <p class="mb-0 mt-3 align-middle text-center fw-medium">{{ $tool->name_tools }}</p>
                                     </div>
                                 @endforeach
                             </div>

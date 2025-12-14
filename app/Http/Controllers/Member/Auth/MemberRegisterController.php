@@ -4,31 +4,43 @@ namespace App\Http\Controllers\Member\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profession;
+use App\Services\DummyDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 
 // model yang di butuhkan
 use App\Models\User;
 
-
+/**
+ * MemberRegisterController - Controller untuk registrasi member
+ * 
+ * DUMMY MODE: Registrasi tidak menyimpan ke database, langsung login dengan user dummy
+ */
 class MemberRegisterController extends Controller
 {
+    protected DummyDataService $dummyService;
+
+    public function __construct()
+    {
+        $this->dummyService = new DummyDataService();
+    }
+
     // Sesi pertama: Form registrasi akun (hanya nama, email, dan password)
     public function index()
     {
-        $profession = Profession::all();
-        return view('member.auth.register', compact('profession')); // Tampilan sesi pertama
+        // DUMMY DATA: Get professions from dummy
+        $profession = $this->dummyService->getAllProfessions();
+        return view('member.auth.register', compact('profession'));
     }
 
     public function store(Request $requests)
     {
         $requests->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'profession' => 'required',
             'password' => [
@@ -38,32 +50,10 @@ class MemberRegisterController extends Controller
             ]
         ]);
 
-        // Set default avatar jika tidak ada file yang diunggah
-        $avatar = 'default.png';
+        // DUMMY MODE: Tidak menyimpan ke database
+        // Langsung redirect ke halaman kursus dengan pesan sukses
+        Alert::success('Success', 'Registrasi berhasil! (Demo Mode - Silakan login dengan akun dummy)');
 
-        if ($requests->hasFile('avatar')) {
-            $getNameImageAvatar = $requests->file('avatar')->getClientOriginalName();
-            $avatarName = Str::random(10) . '_' . $getNameImageAvatar;
-            $avatar = $requests->file('avatar')->storeAs('public/images/avatars', $avatarName);
-        }
-
-        // Simpan user ke database
-        $user = User::create([
-            'avatar' => $avatar,
-            'name' => $requests->name,
-            'email' => $requests->email,
-            'profession' => $requests->profession,
-            'password' => Hash::make($requests->password),
-        ]);
-
-        // **Kirim event agar email verifikasi otomatis dikirim**
-        event(new Registered($user));
-
-        // **Langsung login user setelah registrasi**
-        Auth::login($user);
-
-        Alert::success('Success', 'Akun berhasil dibuat! Silakan verifikasi email Anda.');
-
-        return redirect()->route('verification.notice');
+        return redirect()->route('member.login');
     }
 }

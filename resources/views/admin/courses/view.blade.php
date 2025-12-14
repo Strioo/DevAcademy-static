@@ -45,12 +45,14 @@
                                     <td>{{ $course->category }}</td>
                                     <td>{{ $course->type === 'premium' ? 'Berbayar' : 'Gratis' }}</td>
                                     <td>
-                                        @if ($course->cover)
+                                        @if ($course->cover && $course->cover != '' && file_exists(public_path('storage/images/covers/' . $course->cover)))
                                             <img src="{{ asset('storage/images/covers/' . $course->cover) }}"
                                                 alt="Cover Kelas {{ $course->name }}"
                                                 style="width: 100px; height: auto; border-radius: 5px;">
                                         @else
-                                            <span class="text-muted">Tidak ada cover</span>
+                                            <img src="{{ asset('devacademy/member/img/courseBG.png') }}"
+                                                alt="Default Cover"
+                                                style="width: 100px; height: auto; border-radius: 5px;">
                                         @endif
                                     </td>
 

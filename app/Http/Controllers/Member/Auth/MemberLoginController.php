@@ -42,7 +42,8 @@ class MemberLoginController extends Controller
             if (Auth::attempt($credentials)) {
                 $requests->session()->regenerate();
                 Alert::success('Success', 'Login Berhasil');
-                return redirect()->route('home');
+                // DUMMY MODE: Langsung ke halaman kursus setelah login (tanpa verifikasi email)
+                return redirect()->route('member.course');
             } else {
                 // Log::warning('Login gagal: Password salah untuk email: ' . $email);
                 return redirect()->back()->withErrors(['password' => 'Password salah.'])->withInput();

@@ -40,11 +40,17 @@
                     <!-- Transaction Cards -->
                     @foreach ($transactions as $transaction)
                         <div class="card mt-3">
-                            <div class="card-body d-flex align-items-center">
+                            <div class="card-body d-flex align-items-center p-4">
 
-                                <img alt="Product image"
-                                    src="{{ asset('storage/images/covers/' . $transaction->course->cover) }}"
-                                    height="90" width="130" class="cover me-3" />
+                                @if ($transaction->course->cover && $transaction->course->cover != '' && file_exists(public_path('storage/images/covers/' . $transaction->course->cover)))
+                                    <img alt="Product image"
+                                        src="{{ asset('storage/images/covers/' . $transaction->course->cover) }}"
+                                        height="90" width="130" class="cover me-4" style="border-radius: 8px; object-fit: cover;" />
+                                @else
+                                    <img alt="Product image"
+                                        src="{{ asset('devacademy/member/img/courseBG.png') }}"
+                                        height="90" width="130" class="cover me-4" style="border-radius: 8px; object-fit: cover;" />
+                                @endif
                                 <div class="details">
                                     <h5 class="title">{{ $transaction->name }}</h5>
                                     @if ($transaction->price == 0)
