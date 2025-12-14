@@ -64,8 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'students' => \App\Http\Middleware\StudentMiddleware::class,
-        'mentor' => \App\Http\Middleware\MentorMiddleware::class,
-        'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'maintenance.middleware' => \App\Http\Middleware\StatusWebsiteCheck::class,
+        // Admin middleware removed: 'mentor', 'superadmin'
     ];
 }
